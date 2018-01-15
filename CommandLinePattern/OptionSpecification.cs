@@ -94,6 +94,12 @@ namespace CommandLinePattern
                     throw argumentException;
                 }
 
+                // Invalid pattern: "--", "-\s", "- "
+                if (string.IsNullOrWhiteSpace(keyword))
+                {
+                    throw argumentException;
+                }
+
                 if (isFullPattern)
                 {
                     _specByKey.Add(keyword, option);
