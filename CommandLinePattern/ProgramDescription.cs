@@ -116,15 +116,12 @@ namespace CommandLinePattern
 
             // 1.Extract flags / options definitions of attributes
             //   a) Check "already defined"
-            desc.ExtractFlagOptionOfAtrributes(typeof(ProgramDescription).GetTypeInfo());
-
-            if (desc.GetType() != typeof(ProgramDescription))
-            {
-                desc.ExtractFlagOptionOfAtrributes(desc.GetType().GetTypeInfo());
-            }
+            desc.ExtractFlagOptionOfAtrributes(desc.GetType());
 
             // 2.Read flags / options
             //   a) Check repeated flag / option
+            desc.ReadFlagsOptions(args);
+
             // 3.Check unknown options
             // 4.Check if OPTION value is valid
             // 5.Convert for arguments types
@@ -132,9 +129,13 @@ namespace CommandLinePattern
             return desc;
         }
 
-        private void ExtractFlagOptionOfAtrributes(TypeInfo typeInfo)
+        /// <summary>
+        /// Extract flags and options of type atrributes
+        /// </summary>
+        /// <param name="typeInfo"><see cref="Type"/> instance</param>
+        private void ExtractFlagOptionOfAtrributes(Type typeInfo)
         {
-            foreach (var prop in typeInfo.DeclaredProperties)
+            foreach (var prop in typeInfo.GetProperties())
             {
                 var option = prop.GetCustomAttribute(typeof(ProgramOptionAttribute));
                 var flag = prop.GetCustomAttribute(typeof(ProgramFlagAttribute));
@@ -162,6 +163,104 @@ namespace CommandLinePattern
                     {
                         Spec.Flag(flagDef.Flag.Name, flagDef.Flag.Pattern, flagDef.Flag.Description);
                     }
+                }
+            }
+        }
+
+        private void ReadFlagsOptions(string[] args)
+        {
+            var remainingArgs = new List<string>();
+
+            // Output:
+            // -t?
+            // --test-only
+            // -c
+            // Comando Informado
+            // --username=MyUser
+            // -x=My secret =password
+
+            for (int argc = 0; argc < args.Length; argc++)
+            {
+                string argOriginal = args[argc];
+                string arg = argOriginal;
+
+                // Minimal pattern: "-c"
+                if (arg.Length < 2)
+                {
+                    remainingArgs.Add(arg);
+                    continue;
+                }
+
+                char first = arg[0];
+                char second = arg[1];
+                bool isFullPattern = false;
+                bool isShortPattern = false;
+
+                // Full name pattern: "--full-name
+                if (first == '-' && second == '-')
+                {
+                    arg = new string(arg.Skip(2).ToArray());
+                    isFullPattern = true;
+                }
+
+                // Short name pattern: "-name"
+                else if (first == '-')
+                {
+                    arg = new string(arg.Skip(1).ToArray());
+                    isShortPattern = true;
+                }
+
+                // Invalid pattern: "?"
+                if (!isFullPattern && !isShortPattern)
+                {
+                    remainingArgs.Add(arg);
+                    continue;
+                }
+
+                string argValue = null;
+
+                if (arg.Contains('='))
+                {
+                    argValue = arg.Substring(arg.IndexOf('='));
+                }
+
+                if (isShortPattern && argValue != null)
+                {
+                    throw new ArgumentException(string.Format("Invalid argument format: {0}", argOriginal));
+                }
+
+                // TODO: Se é isFullPattern, e NÃO TEM a definição, e UnknownOptionAction.ThrowException
+                // -> Lança exceção de opção inválida
+
+                // TODO: Se é isFullPattern, e NÃO TEM a definição, e UnknownOptionAction.Remove
+                // -> @continue
+
+                // TODO: Se é isFullPattern, e NÃO TEM a definição, e UnknownOptionAction.ByPass
+                // -> Adiciona @argOriginal em remainingArgs e @continue
+
+                // TODO: Se é isFullPattern, e TEM a definição, e já foi atribuído, e RepeatedOptionAction.ThrowException
+                // -> Lança exceção de opção repetida
+
+                // TODO: Se é isFullPattern, e TEM a definição, e já foi atribuído, e RepeatedOptionAction.Replace
+                // -> Atribui o valor da opção
+                //    # Se existe @argValue, esse é o valor
+                //    # Se não existe @argValue, o valor é o próximo argumento
+                //      # Se não existe o próximo argumento, lança exceção de opção inválida
+                //        ? aqui podemos ou lançar a exceção, ou incluir uma flag que diz se é pra lanaçar a exceção ou simplesmente não atribuir o valor da opção
+
+                // TODO: Se é isFullPattern, e TEM a definição, e já foi atribuído, e RepeatedOptionAction.Ignore
+                // -> @continue
+
+                // TODO: Se é isFullPattern, e TEM a definição, e NÃO foi atribuído
+                // -> Atribui o valor da opção, informa que já foi atribuído
+                //    # Se existe @argValue, esse é o valor
+                //    # Se não existe @argValue, o valor é o próximo argumento
+                //      # Se não existe o próximo argumento, lança exceção de opção inválida
+                //        ? aqui podemos ou lançar a exceção, ou incluir uma flag que diz se é pra lanaçar a exceção ou simplesmente não atribuir o valor da opção
+
+                // TODO: Se é isShortPattern. Percorre cada character
+                {
+                    // TODO: ...
                 }
             }
         }
