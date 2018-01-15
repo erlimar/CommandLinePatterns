@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLinePatterns", "CommandLinePatterns\CommandLinePatterns.csproj", "{EAAF150A-8A99-452E-9D46-E1EC07A9A213}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLinePattern", "CommandLinePattern\CommandLinePattern.csproj", "{404E6C23-08E2-4337-A9EC-060B26F3692D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EAAF150A-8A99-452E-9D46-E1EC07A9A213}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAAF150A-8A99-452E-9D46-E1EC07A9A213}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAAF150A-8A99-452E-9D46-E1EC07A9A213}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAAF150A-8A99-452E-9D46-E1EC07A9A213}.Release|Any CPU.Build.0 = Release|Any CPU
+		{404E6C23-08E2-4337-A9EC-060B26F3692D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{404E6C23-08E2-4337-A9EC-060B26F3692D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{404E6C23-08E2-4337-A9EC-060B26F3692D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{404E6C23-08E2-4337-A9EC-060B26F3692D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
