@@ -221,7 +221,12 @@ namespace CommandLinePattern
 
                 if (arg.Contains('='))
                 {
-                    argValue = arg.Substring(arg.IndexOf('='));
+                    var eqIdx = arg.IndexOf('=');
+
+                    argValue = arg.Substring(eqIdx);
+                    arg = arg.Substring(0, eqIdx);
+
+                    throw new NotImplementedException("Test its!");
                 }
 
                 if (isShortPattern && argValue != null)
