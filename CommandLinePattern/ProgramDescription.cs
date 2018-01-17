@@ -109,9 +109,8 @@ namespace CommandLinePattern
              *    a) Check "already defined"
              * 2. Read flags/options
              *    a) Check repeated flag/option
-             * 3. Check unknown options
-             * 4. Check if OPTION value is valid
-             * 5. Convert for arguments types
+             * 3. Check if OPTION value is valid
+             * 4. Convert for arguments types
              */
 
             // 1. Extract flags / options definitions of attributes
@@ -122,9 +121,8 @@ namespace CommandLinePattern
             //    a) Check repeated flag / option
             desc.ReadFlagsOptions(args);
 
-            // 3. Check unknown options
-            // 4. Check if OPTION value is valid
-            // 5. Convert for arguments types
+            // 3. Check if OPTION value is valid
+            // 4. Convert for arguments types
 
             return desc;
         }
@@ -192,18 +190,14 @@ namespace CommandLinePattern
             return start;
         }
 
+        /// <summary>
+        /// Read flags and options values from arguments
+        /// </summary>
+        /// <param name="args">The arguments</param>
         private void ReadFlagsOptions(string[] args)
         {
             var remainingArgs = new List<string>();
             int maxArgIdx = args.Length - 1;
-
-            // Output:
-            // -t?
-            // --test-only
-            // -c
-            // Comando Informado
-            // --username=MyUser
-            // -x=My secret =password
 
             for (int argc = 0; argc <= maxArgIdx; argc++)
             {
