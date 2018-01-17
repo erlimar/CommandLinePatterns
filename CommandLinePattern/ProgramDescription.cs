@@ -114,17 +114,17 @@ namespace CommandLinePattern
              * 5. Convert for arguments types
              */
 
-            // 1.Extract flags / options definitions of attributes
-            //   a) Check "already defined"
+            // 1. Extract flags / options definitions of attributes
+            //    a) Check "already defined"
             desc.ExtractFlagOptionOfAtrributes(desc.GetType());
 
-            // 2.Read flags / options
-            //   a) Check repeated flag / option
+            // 2. Read flags / options
+            //    a) Check repeated flag / option
             desc.ReadFlagsOptions(args);
 
-            // 3.Check unknown options
-            // 4.Check if OPTION value is valid
-            // 5.Convert for arguments types
+            // 3. Check unknown options
+            // 4. Check if OPTION value is valid
+            // 5. Convert for arguments types
 
             return desc;
         }
@@ -167,9 +167,35 @@ namespace CommandLinePattern
             }
         }
 
+        /// <summary>
+        /// Searches for the next non-null argument and does not start with "-"
+        /// </summary>
+        /// <param name="start">Start index</param>
+        /// <param name="args">Arguments</param>
+        /// <param name="valueFound">Value found</param>
+        /// <returns>Argument index, or <paramref name="start"/> if not found.</returns>
+        private int GetNextValueParameter(int start, string[] args, out string valueFound)
+        {
+            valueFound = null;
+
+            for (int argc = start; argc < args.Length; argc++)
+            {
+                string arg = args[argc];
+
+                if (string.IsNullOrEmpty(arg)) continue;
+                if (arg.First() == '-') continue;
+
+                valueFound = arg;
+                return argc;
+            }
+
+            return start;
+        }
+
         private void ReadFlagsOptions(string[] args)
         {
             var remainingArgs = new List<string>();
+            int maxArgIdx = args.Length - 1;
 
             // Output:
             // -t?
@@ -179,7 +205,7 @@ namespace CommandLinePattern
             // --username=MyUser
             // -x=My secret =password
 
-            for (int argc = 0; argc < args.Length; argc++)
+            for (int argc = 0; argc <= maxArgIdx; argc++)
             {
                 string argOriginal = args[argc];
                 string arg = argOriginal;
@@ -213,60 +239,155 @@ namespace CommandLinePattern
                 // Invalid pattern: "?"
                 if (!isFullPattern && !isShortPattern)
                 {
-                    remainingArgs.Add(arg);
+                    remainingArgs.Add(argOriginal);
                     continue;
                 }
 
                 string argValue = null;
 
+                // Pattern: "-x=Value", "--xx=Value"
                 if (arg.Contains('='))
                 {
                     var eqIdx = arg.IndexOf('=');
 
-                    argValue = arg.Substring(eqIdx);
+                    argValue = arg.Substring(eqIdx + 1);
                     arg = arg.Substring(0, eqIdx);
-
-                    throw new NotImplementedException("Test its!");
                 }
 
-                if (isShortPattern && argValue != null)
+                var argTokens = new List<string>();
+
+                // The word is the token itself
+                if (isFullPattern)
                 {
-                    throw new ArgumentException(string.Format("Invalid argument format: {0}", argOriginal));
+                    argTokens.Add(arg);
                 }
 
-                // TODO: Se é isFullPattern, e NÃO TEM a definição, e UnknownOptionAction.ThrowException
-                // -> Lança exceção de opção inválida
-
-                // TODO: Se é isFullPattern, e NÃO TEM a definição, e UnknownOptionAction.Remove
-                // -> @continue
-
-                // TODO: Se é isFullPattern, e NÃO TEM a definição, e UnknownOptionAction.ByPass
-                // -> Adiciona @argOriginal em remainingArgs e @continue
-
-                // TODO: Se é isFullPattern, e TEM a definição, e já foi atribuído, e RepeatedOptionAction.ThrowException
-                // -> Lança exceção de opção repetida
-
-                // TODO: Se é isFullPattern, e TEM a definição, e já foi atribuído, e RepeatedOptionAction.Replace
-                // -> Atribui o valor da opção
-                //    # Se existe @argValue, esse é o valor
-                //    # Se não existe @argValue, o valor é o próximo argumento
-                //      # Se não existe o próximo argumento, lança exceção de opção inválida
-                //        ? aqui podemos ou lançar a exceção, ou incluir uma flag que diz se é pra lanaçar a exceção ou simplesmente não atribuir o valor da opção
-
-                // TODO: Se é isFullPattern, e TEM a definição, e já foi atribuído, e RepeatedOptionAction.Ignore
-                // -> @continue
-
-                // TODO: Se é isFullPattern, e TEM a definição, e NÃO foi atribuído
-                // -> Atribui o valor da opção, informa que já foi atribuído
-                //    # Se existe @argValue, esse é o valor
-                //    # Se não existe @argValue, o valor é o próximo argumento
-                //      # Se não existe o próximo argumento, lança exceção de opção inválida
-                //        ? aqui podemos ou lançar a exceção, ou incluir uma flag que diz se é pra lanaçar a exceção ou simplesmente não atribuir o valor da opção
-
-                // TODO: Se é isShortPattern. Percorre cada character
+                // Each character is a token
+                else if (isShortPattern)
                 {
-                    // TODO: ...
+                    arg
+                        .ToCharArray()
+                        .ToList()
+                        .ForEach(c => argTokens.Add(c.ToString()));
                 }
+
+                argTokens.ForEach(token =>
+                {
+                    ProgramOptionBase option = Spec.GetOptionByToken(token);
+
+                    // Option not found!
+                    if (option == null)
+                    {
+                        switch (UnknownOptionAction)
+                        {
+                            case UnknownOptionAction.ThrowException:
+                                throw new UnknownOptionException(token, isFullPattern);
+
+                            case UnknownOptionAction.ByPass:
+                                if (isFullPattern)
+                                {
+                                    remainingArgs.Add(argOriginal);
+                                }
+                                else if (argValue != null)
+                                {
+                                    remainingArgs.Add(string.Format("-{0}={1}", token, argValue));
+                                }
+                                else
+                                {
+                                    remainingArgs.Add(string.Format("-{0}", token));
+                                }
+                                return; // argTokens.ForEach
+
+                            case UnknownOptionAction.Discard:
+                            default:
+                                return; // argTokens.ForEach
+                        }
+                    }
+
+                    // Repeated option!
+                    else if (option.HasValue)
+                    {
+                        switch (RepeatedOptionAction)
+                        {
+                            case RepeatedOptionAction.ThrowException:
+                                throw new RepeatedOptionException(token, isFullPattern);
+
+                            case RepeatedOptionAction.Replace:
+                                // TODO: ???
+                                // Se não existe @argValue, o valor é o próximo argumento
+                                // > Se não existe o próximo argumento, lança exceção de opção inválida?
+                                //   - aqui podemos ou lançar a exceção,
+                                //   - ou incluir uma flag que diz se é pra lanaçar a exceção
+                                //   - ou simplesmente não atribuir o valor da opção
+                                if (!option.IsFlag && argValue == null && argc < maxArgIdx)
+                                {
+                                    int nextArgIdx = GetNextValueParameter(argc + 1, args, out argValue);
+
+                                    // Found!
+                                    if (nextArgIdx != argc)
+                                    {
+                                        // Removes argument  found, and reconfigures context
+                                        var argList = args.ToList();
+
+                                        argList.RemoveAt(nextArgIdx);
+
+                                        args = argList.ToArray();
+                                        maxArgIdx--;
+                                    }
+                                }
+
+                                if (!option.IsFlag && argValue != null)
+                                {
+                                    option.InformedValue = argValue;
+                                }
+                                return; // argTokens.ForEach
+
+                            case RepeatedOptionAction.Ignore:
+                            default:
+                                return; // argTokens.ForEach
+                        }
+                    }
+
+                    // Flag found for the first time
+                    else if (option.IsFlag)
+                    {
+                        option.HasValue = true;
+                        option.InformedValue = bool.TrueString;
+                    }
+
+                    // Option found for the first time
+                    else
+                    {
+                        // TODO: ???
+                        // Se não existe @argValue, o valor é o próximo argumento
+                        // > Se não existe o próximo argumento, lança exceção de opção inválida?
+                        //   - aqui podemos ou lançar a exceção,
+                        //   - ou incluir uma flag que diz se é pra lanaçar a exceção
+                        //   - ou simplesmente não atribuir o valor da opção
+                        if (argValue == null && argc < maxArgIdx)
+                        {
+                            int nextArgIdx = GetNextValueParameter(argc + 1, args, out argValue);
+
+                            // Found!
+                            if (nextArgIdx != argc)
+                            {
+                                // Removes argument  found, and reconfigures context
+                                var argList = args.ToList();
+
+                                argList.RemoveAt(nextArgIdx);
+
+                                args = argList.ToArray();
+                                maxArgIdx--;
+                            }
+                        }
+
+                        if (argValue != null)
+                        {
+                            option.HasValue = true;
+                            option.InformedValue = argValue;
+                        }
+                    }
+                });
             }
         }
     }

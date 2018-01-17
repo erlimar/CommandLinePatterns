@@ -6,11 +6,31 @@ namespace CommandLinePattern
 {
     public class OptionSpecification
     {
-        private readonly Dictionary<string, ProgramOptionBase> _specByKey
+        private readonly Dictionary<string, ProgramOptionBase> _specByToken
             = new Dictionary<string, ProgramOptionBase>();
 
         private readonly Dictionary<string, ProgramOptionBase> _specByName
             = new Dictionary<string, ProgramOptionBase>();
+
+        public ProgramOptionBase GetOptionByToken(string token)
+        {
+            if (!_specByToken.ContainsKey(token))
+            {
+                return null;
+            }
+
+            return _specByToken[token];
+        }
+
+        public ProgramOptionBase GetOptionByName(string name)
+        {
+            if (!_specByName.ContainsKey(name))
+            {
+                return null;
+            }
+
+            return _specByName[name];
+        }
 
         public OptionSpecification Option(string name, string pattern, string description)
         {
@@ -102,11 +122,14 @@ namespace CommandLinePattern
 
                 if (isFullPattern)
                 {
-                    _specByKey.Add(keyword, option);
+                    _specByToken.Add(keyword, option);
                 }
                 else
                 {
-                    foreach (char k in keyword) _specByKey.Add(k.ToString(), option);
+                    keyword
+                        .ToCharArray()
+                        .ToList()
+                        .ForEach(c => _specByToken.Add(c.ToString(), option));
                 }
             });
         }

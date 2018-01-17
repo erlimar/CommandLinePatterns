@@ -7,6 +7,8 @@
         public string Description { get; set; }
         public bool IsFlag { get; set; }
         public string InformedValue { get; set; }
-        public object CalculatedValue { get; set; }
+        public bool HasValue { get; set; }
+
+        //public object CalculatedValue { get; set; }
     }
 }

@@ -3,7 +3,7 @@
     public enum UnknownOptionAction
     {
         ByPass,
-        Remove,
+        Discard,
         ThrowException
     }
 }
