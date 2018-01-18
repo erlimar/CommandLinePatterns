@@ -13,8 +13,8 @@ COMMANDS:
     ...
 
 OPTIONS:
-    -k|--key=<key>            Lorem ipsum lorem ipsum lorem ipsum
-    -v|--verbosity <verbosity>      Inform a verbosity level.
+    -k|--key <key>              Lorem ipsum lorem ipsum lorem ipsum
+    -v|--verbosity=<verbosity>  Inform a verbosity level.
         Accepted values:
         - DEBUG                 ...
         - VERBOSE               ...
