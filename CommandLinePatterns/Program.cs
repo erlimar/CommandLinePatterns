@@ -14,14 +14,25 @@ namespace CommandLinePatterns
             UnknownOptionAction = ByPass;
 
             Spec
-                .Option("Command", "-c|--command", "The command name")
-                .Option("UserName", "--username", "The user name")
-                .Flag("TestOnly", "-t|--test-only", "Run on test mode");
+               .Option("Command", "-c|--command", "The command name")
+               .Option("UserName", "--username", "The user name")
+               .Flag("TestOnly", "-t|--test-only", "Run on test mode");
         }
 
         //[ProgramOption("Command", "-c|--command", "The command name")]
         [ProgramOption("Command")]
+        [ProgramAcceptedValues(
+            "help   | The help command",
+            "env    | The environment command",
+            "update | The update command"
+        )]
         public string Command { get; set; }
+
+        [ProgramOption("UpdateChannel", "--channel", "The update channel name")]
+        [ProgramAcceptedValue("alpha")]
+        [ProgramAcceptedValue("Beta")]
+        [ProgramAcceptedValue("RELEASE")]
+        public string UpdateChannel { get; set; }
 
         //[ProgramFlag("TestOnly", "-t|--test-only", "Run on test mode")]
         [ProgramFlag("TestOnly")]

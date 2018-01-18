@@ -41,8 +41,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="OptionSpecification.cs" />
+    <Compile Include="ProgramAcceptedValueAttribute.cs" />
     <Compile Include="ProgramDescription.cs" />
     <Compile Include="OptionAttribute.cs" />
+    <Compile Include="ProgramAcceptedValuesAttribute.cs" />
     <Compile Include="ProgramOptionAttribute.cs" />
     <Compile Include="ProgramOptionBase.cs" />
     <Compile Include="ProgramFlagAttribute.cs" />
