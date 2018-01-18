@@ -1,0 +1,20 @@
+* Quando adicionamos uma option por construtor `Spec.Option("Cmd", "-c", "...")`
+  e referenciamos em uma propriedade com `[ProgramOption("Cmd")] string Prop {get; set;}`
+  a criação se deu no construtor, e depois referenciamos em uma `Prop` mas sem
+  criá-la novamente (o que levantaria uma exceção de opção já especificada).
+  Mas aí entram os valores `[ProgramOptionValues(...)]` que precisam indicar qual
+  a sua opção.
+
+  Hoje estamos considerando que a opção é a que está (quando estiver, nesse caso se
+  tivermos um valor sem opção, ele ficará órfão) na propriedade, por consequência
+  só podemos atribuir valores na propriedade e não no construtor.
+
+  Pra fazer? Precisamos permitir essa configuração funcionar de forma interligada,
+  seja por construtor ou por propriedades.
+
+  - Deve ser possível criar a opção por construtor e informar os valores
+    possíveis no propriedade.
+  - Também deve ser possível criar a opção por propriedade e informar os valores
+    possíveis no construtor.
+  - A especificação tardia talvez seja a solução. Pra isso devemos deixar a geração
+    dos objetos de especificação, somente na chamada do `Parse(...)`.
