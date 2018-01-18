@@ -149,7 +149,7 @@ namespace CommandLinePattern
 
                     if (optionDef.Define)
                     {
-                        Spec.Option(optionDef.Option.Name, optionDef.Option.Pattern, optionDef.Option.Description);
+                        Spec.Option(optionDef.Name, optionDef.Pattern, optionDef.Description);
                     }
                 }
 
@@ -159,7 +159,7 @@ namespace CommandLinePattern
 
                     if (flagDef.Define)
                     {
-                        Spec.Flag(flagDef.Flag.Name, flagDef.Flag.Pattern, flagDef.Flag.Description);
+                        Spec.Flag(flagDef.Name, flagDef.Pattern, flagDef.Description);
                     }
                 }
             }

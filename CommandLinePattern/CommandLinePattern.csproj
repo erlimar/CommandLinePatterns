@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="OptionSpecification.cs" />
     <Compile Include="ProgramDescription.cs" />
+    <Compile Include="OptionAttribute.cs" />
     <Compile Include="ProgramOptionAttribute.cs" />
     <Compile Include="ProgramOptionBase.cs" />
     <Compile Include="ProgramFlagAttribute.cs" />
