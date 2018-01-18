@@ -7,6 +7,7 @@ namespace CommandLinePattern
 {
     public class ProgramDescription
     {
+        private readonly IProgramConsole _console;
 
         /// <summary>
         /// Program name.
@@ -51,7 +52,7 @@ namespace CommandLinePattern
         /// </summary>
         protected OptionSpecification Spec { get; }
 
-        protected ProgramDescription(string name, string description)
+        protected ProgramDescription(IProgramConsole console, string name, string description)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -63,6 +64,7 @@ namespace CommandLinePattern
                 throw new ArgumentNullException(nameof(description));
             }
 
+            _console = console;
             Name = name;
             Description = description;
             UnknownOptionAction = UnknownOptionAction.ThrowException;
@@ -70,8 +72,8 @@ namespace CommandLinePattern
             Spec = new OptionSpecification();
         }
 
-        protected ProgramDescription(string name, string description, string synopsis)
-            : this(name, description)
+        protected ProgramDescription(IProgramConsole console, string name, string description, string synopsis)
+            : this(console, name, description)
         {
             if (string.IsNullOrWhiteSpace(synopsis))
             {
@@ -81,8 +83,8 @@ namespace CommandLinePattern
             Synopsis = synopsis;
         }
 
-        protected ProgramDescription(string name, string description, string[] synopsis)
-            : this(name, description, string.Join(Environment.NewLine, synopsis ?? new string[] { }))
+        protected ProgramDescription(IProgramConsole console, string name, string description, string[] synopsis)
+            : this(console, name, description, string.Join(Environment.NewLine, synopsis ?? new string[] { }))
         { }
 
         /// <summary>
@@ -487,7 +489,8 @@ namespace CommandLinePattern
 
             if (!string.IsNullOrWhiteSpace(Synopsis))
             {
-                Say(Synopsis, true);
+                _console.Say(Synopsis, ProgramConsoleHighlight.Comment);
+                _console.Say(null);
             }
         }
 
@@ -500,15 +503,19 @@ namespace CommandLinePattern
                 programName += string.Format(" - {0}", Description);
             }
 
-            Say(programName, true);
+            _console.Say(programName);
+            _console.Say(null);
         }
 
         private void SayUsage()
         {
             string prompt = string.Format("{0}$ {1} [option|flag] [args]", Tab(1), Name);
 
-            Say("USAGE:", true);
-            Say(prompt, true);
+            _console.Say("USAGE:", ProgramConsoleHighlight.Bright);
+            _console.Say(null);
+
+            _console.Say(prompt);
+            _console.Say(null);
         }
 
         private void SayOptions(int columnWidth)
@@ -520,30 +527,31 @@ namespace CommandLinePattern
                 return;
             }
 
-            Say("OPTIONS:", true);
+            _console.Say("OPTIONS:", ProgramConsoleHighlight.Bright);
+            _console.Say(null);
 
             foreach (var option in options)
             {
                 string optionExp = string.Format("{0}{1}=<{2}>", Tab(1), option.Pattern, option.Name);
                 string optionLine = string.Format("{0} {1}", optionExp.PadRight(columnWidth), option.Description);
 
-                Say(optionLine);
+                _console.Say(optionLine);
 
                 if (option.AcceptedValues.Any())
                 {
-                    Say(string.Format("{0} Accepted values:", Tab(2)));
+                    _console.Say(string.Format("{0} Accepted values:", Tab(2)), ProgramConsoleHighlight.Comment);
 
                     option.AcceptedValues.ForEach(v =>
                     {
                         string valueExp = string.Format("{0} - {1}", Tab(2), v.Value);
                         string valueLine = string.Format("{0} {1}", valueExp.PadRight(columnWidth), v.Description);
 
-                        Say(valueLine);
+                        _console.Say(valueLine, ProgramConsoleHighlight.Comment);
                     });
                 }
             }
 
-            Say(null);
+            _console.Say(null);
         }
 
         private void SayFlags(int columnWidth)
@@ -555,27 +563,18 @@ namespace CommandLinePattern
                 return;
             }
 
-            Say("FLAGS:", true);
+            _console.Say("FLAGS:", ProgramConsoleHighlight.Bright);
+            _console.Say(null);
 
             foreach (var flag in flags)
             {
                 string flagExp = string.Format("{0}{1}", Tab(1), flag.Pattern, flag.Name);
                 string flagLine = string.Format("{0} {1}", flagExp.PadRight(columnWidth), flag.Description);
 
-                Say(flagLine);
+                _console.Say(flagLine);
             }
 
-            Say(null);
-        }
-
-        private void Say(string message, bool extraLine = false)
-        {
-            Console.WriteLine(message);
-
-            if (extraLine)
-            {
-                Console.WriteLine();
-            }
+            _console.Say(null);
         }
 
         private string Tab(int count)

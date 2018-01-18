@@ -9,7 +9,7 @@ namespace CommandLinePatterns
 
     public class Program : ProgramDescription
     {
-        public Program() : base(PROGRAM_NAME, PROGRAM_DESCRIPTION, PROGRAM_SYNOPSIS)
+        public Program() : base(new ProgramConsole(), PROGRAM_NAME, PROGRAM_DESCRIPTION, PROGRAM_SYNOPSIS)
         {
             UnknownOptionAction = ByPass;
 

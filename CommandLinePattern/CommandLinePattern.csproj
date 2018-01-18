@@ -40,8 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IProgramConsole.cs" />
     <Compile Include="OptionSpecification.cs" />
     <Compile Include="ProgramAcceptedValue.cs" />
+    <Compile Include="ProgramConsole.cs" />
+    <Compile Include="ProgramConsoleHighlight.cs" />
     <Compile Include="ProgramOptionValueAttribute.cs" />
     <Compile Include="ProgramDescription.cs" />
     <Compile Include="OptionAttribute.cs" />
