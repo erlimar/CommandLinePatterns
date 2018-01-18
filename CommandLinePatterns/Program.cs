@@ -21,7 +21,7 @@ namespace CommandLinePatterns
 
         //[ProgramOption("Command", "-c|--command", "The command name")]
         [ProgramOption("Command")]
-        [ProgramAcceptedValues(
+        [ProgramOptionValues(
             "help   | The help command",
             "env    | The environment command",
             "update | The update command"
@@ -29,9 +29,9 @@ namespace CommandLinePatterns
         public string Command { get; set; }
 
         [ProgramOption("UpdateChannel", "--channel", "The update channel name")]
-        [ProgramAcceptedValue("alpha")]
-        [ProgramAcceptedValue("Beta")]
-        [ProgramAcceptedValue("RELEASE")]
+        [ProgramOptionValue("alpha")]
+        [ProgramOptionValue("Beta")]
+        [ProgramOptionValue("RELEASE")]
         public string UpdateChannel { get; set; }
 
         //[ProgramFlag("TestOnly", "-t|--test-only", "Run on test mode")]

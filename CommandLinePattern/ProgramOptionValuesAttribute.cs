@@ -3,9 +3,9 @@
 namespace CommandLinePattern
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
-    public class ProgramAcceptedValuesAttribute : Attribute
+    public class ProgramOptionValuesAttribute : Attribute
     {
-        public ProgramAcceptedValuesAttribute(params string[] values)
+        public ProgramOptionValuesAttribute(params string[] values)
         {
             Values = values;
         }
