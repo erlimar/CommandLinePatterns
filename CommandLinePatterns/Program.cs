@@ -57,8 +57,11 @@ namespace CommandLinePatterns
 
             if (program.EnsureShowHelp())
             {
+                Console.ReadKey();
                 return;
             }
+
+            Console.ReadKey();
         }
     }
 }

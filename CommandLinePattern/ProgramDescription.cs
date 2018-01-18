@@ -91,7 +91,18 @@ namespace CommandLinePattern
         /// <returns><see cref="true"/> if help flag is present and <see cref="false"/> otherwise.</returns>
         public bool EnsureShowHelp()
         {
-            throw new NotImplementedException();
+            if (ShowHelp)
+            {
+                SayFullLogo();
+                SayUsage();
+
+                int columnWidth = CalculateMaxWidthForOptionFlagExpression();
+
+                SayOptions(columnWidth);
+                SayFlags(columnWidth);
+            }
+
+            return ShowHelp;
         }
 
         /// <summary>
@@ -468,6 +479,114 @@ namespace CommandLinePattern
             }
 
             Arguments = remainingArgs.ToArray();
+        }
+
+        private void SayFullLogo()
+        {
+            SayLogo();
+
+            if (!string.IsNullOrWhiteSpace(Synopsis))
+            {
+                Say(Synopsis, true);
+            }
+        }
+
+        private void SayLogo()
+        {
+            string programName = Name;
+
+            if (!string.IsNullOrWhiteSpace(Description))
+            {
+                programName += string.Format(" - {0}", Description);
+            }
+
+            Say(programName, true);
+        }
+
+        private void SayUsage()
+        {
+            string prompt = string.Format("{0}$ {1} [option|flag] [args]", Tab(1), Name);
+
+            Say("USAGE:", true);
+            Say(prompt, true);
+        }
+
+        private void SayOptions(int columnWidth)
+        {
+            var options = Spec.GetAllOptions().Where(o => !o.IsFlag);
+
+            if (!options.Any())
+            {
+                return;
+            }
+
+            Say("OPTIONS:", true);
+
+            foreach (var option in options)
+            {
+                string optionExp = string.Format("{0}{1}=<{2}>", Tab(1), option.Pattern, option.Name);
+                string optionLine = string.Format("{0} {1}", optionExp.PadRight(columnWidth), option.Description);
+
+                Say(optionLine);
+
+                if (option.AcceptedValues.Any())
+                {
+                    Say(string.Format("{0} Accepted values:", Tab(2)));
+
+                    option.AcceptedValues.ForEach(v =>
+                    {
+                        string valueExp = string.Format("{0} - {1}", Tab(2), v.Value);
+                        string valueLine = string.Format("{0} {1}", valueExp.PadRight(columnWidth), v.Description);
+
+                        Say(valueLine);
+                    });
+                }
+            }
+
+            Say(null);
+        }
+
+        private void SayFlags(int columnWidth)
+        {
+            var flags = Spec.GetAllOptions().Where(o => o.IsFlag);
+
+            if (!flags.Any())
+            {
+                return;
+            }
+
+            Say("FLAGS:", true);
+
+            foreach (var flag in flags)
+            {
+                string flagExp = string.Format("{0}{1}", Tab(1), flag.Pattern, flag.Name);
+                string flagLine = string.Format("{0} {1}", flagExp.PadRight(columnWidth), flag.Description);
+
+                Say(flagLine);
+            }
+
+            Say(null);
+        }
+
+        private void Say(string message, bool extraLine = false)
+        {
+            Console.WriteLine(message);
+
+            if (extraLine)
+            {
+                Console.WriteLine();
+            }
+        }
+
+        private string Tab(int count)
+        {
+            return new string(' ', count * 4);
+        }
+
+        private int CalculateMaxWidthForOptionFlagExpression()
+        {
+            // TODO: Calculate
+            return 40;
         }
     }
 }
