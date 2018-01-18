@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace CommandLinePattern
 {
@@ -10,6 +11,12 @@ namespace CommandLinePattern
         public bool IsFlag { get; set; }
         public string InformedValue { get; set; }
         public bool HasValue { get; set; }
+        public List<ProgramAcceptedValue> AcceptedValues { get; set; }
+
+        public ProgramOptionBase()
+        {
+            AcceptedValues = new List<ProgramAcceptedValue>();
+        }
 
         public object ConvertValueToType(Type typeInfo)
         {

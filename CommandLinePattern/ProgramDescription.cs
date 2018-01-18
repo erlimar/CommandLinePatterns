@@ -123,7 +123,16 @@ namespace CommandLinePattern
         /// </summary>
         private void ValidateOptionsAcceptedValues()
         {
-            // TODO: Accepted values!
+            Spec.GetAllOptions()
+                .Where(w => w.HasValue && !w.IsFlag && w.AcceptedValues.Count > 0)
+                .ToList()
+                .ForEach(option =>
+                {
+                    if (!option.AcceptedValues.Any(a => string.Compare(a.Value, option.InformedValue, true) == 0))
+                    {
+                        throw new InvalidOptionValueException(option.Name, option.InformedValue);
+                    }
+                });
         }
 
         /// <summary>
@@ -177,6 +186,14 @@ namespace CommandLinePattern
                     {
                         Spec.Option(optionDef.Name, optionDef.Pattern, optionDef.Description);
                     }
+
+                    // TODO: Lazy add specification
+                    var optionSpec = Spec.GetOptionByName(optionDef.Name);
+
+                    if (optionSpec != null)
+                    {
+                        ExtractOptionValuesOfAttributes(prop, optionSpec);
+                    }
                 }
 
                 if (flag != null)
@@ -189,6 +206,46 @@ namespace CommandLinePattern
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Extract option accepted values from object attributes.
+        /// </summary>
+        /// <param name="prop">Property object</param>
+        /// <param name="optionSpec">Option specification object</param>
+        private void ExtractOptionValuesOfAttributes(PropertyInfo prop, ProgramOptionBase optionSpec)
+        {
+            /// <remarks>
+            /// <see cref="ProgramOptionValueAttribute"/> is <see cref="ProgramOptionValuesAttribute"/>. Therefore, listing <see cref="ProgramOptionValueAttribute"/> already included.
+            /// </remarks>
+            IEnumerable<Attribute> valuesAttrList = prop.GetCustomAttributes(typeof(ProgramOptionValuesAttribute));
+
+            if (valuesAttrList == null) return;
+
+            valuesAttrList.ToList().ForEach(v =>
+            {
+                IEnumerable<ProgramAcceptedValue> acceptedValues = (v as ProgramOptionValuesAttribute).Values.Select(s =>
+                {
+                    string[] values = s.Split('|');
+
+                    if (values.Length < 1) return null;
+
+                    var value = new ProgramAcceptedValue
+                    {
+                        Value = values.First().Trim()
+                    };
+
+                    if (values.Length > 1)
+                    {
+                        value.Description = values.Skip(1).First().Trim();
+                    }
+
+                    return value;
+
+                }).Where(w => w != null);
+
+                optionSpec.AcceptedValues.AddRange(acceptedValues);
+            });
         }
 
         /// <summary>

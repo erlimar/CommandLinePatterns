@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="OptionSpecification.cs" />
+    <Compile Include="ProgramAcceptedValue.cs" />
     <Compile Include="ProgramOptionValueAttribute.cs" />
     <Compile Include="ProgramDescription.cs" />
     <Compile Include="OptionAttribute.cs" />
@@ -53,6 +54,7 @@
     <Compile Include="UnknownOptionAction.cs" />
     <Compile Include="RepeatedOptionException.cs" />
     <Compile Include="ConvertOptionValueException.cs" />
+    <Compile Include="InvalidOptionValueException.cs" />
     <Compile Include="UnknownOptionException.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

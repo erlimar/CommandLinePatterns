@@ -32,8 +32,14 @@ namespace CommandLinePattern
             return _specByName[name];
         }
 
+        public IEnumerable<ProgramOptionBase> GetAllOptions()
+        {
+            return _specByName.Values;
+        }
+
         public OptionSpecification Option(string name, string pattern, string description)
         {
+            // TODO: Lazy add specification
             AddSpecification(name, new ProgramOptionBase
             {
                 Name = name,
@@ -47,6 +53,7 @@ namespace CommandLinePattern
 
         public OptionSpecification Flag(string name, string pattern, string description)
         {
+            // TODO: Lazy add specification
             AddSpecification(name, new ProgramOptionBase
             {
                 Name = name,
