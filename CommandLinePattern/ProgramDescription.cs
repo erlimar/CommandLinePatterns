@@ -24,6 +24,11 @@ namespace CommandLinePattern
         public string Synopsis { get; set; }
 
         /// <summary>
+        /// Program arguments
+        /// </summary>
+        public string[] Arguments { get; private set; }
+
+        /// <summary>
         /// Action for unknown option.
         /// </summary>
         /// <remarks>Default value is <see cref="UnknownOptionAction.ThrowException"/></remarks>
@@ -34,6 +39,12 @@ namespace CommandLinePattern
         /// </summary>
         /// <remarks>Default value is <see cref="RepeatedOptionAction.ThrowException"/></remarks>
         public RepeatedOptionAction RepeatedOptionAction { get; set; }
+
+        /// <summary>
+        /// Command line wrapper for show help information flag.
+        /// </summary>
+        [ProgramFlag("ShowHelp", "-h?|--help|--show-help", "Display help information")]
+        public bool ShowHelp { get; protected set; }
 
         /// <summary>
         /// Specification
@@ -74,9 +85,6 @@ namespace CommandLinePattern
             : this(name, description, string.Join(Environment.NewLine, synopsis ?? new string[] { }))
         { }
 
-        [ProgramFlag("ShowHelp", "-h?|--help|--show-help", "Display help information")]
-        public bool ShowHelp { get; set; }
-
         /// <summary>
         /// Shows a help information if necessary.
         /// </summary>
@@ -102,38 +110,56 @@ namespace CommandLinePattern
             // Ensure empty array for arguments
             args = args ?? new string[] { };
 
-            /**
-             * Flow:
-             *  
-             * 1. Extract flags/options definitions of attributes
-             *    a) Check "already defined"
-             * 2. Read flags/options
-             *    a) Check repeated flag/option
-             * 3. Check if OPTION value is valid
-             * 4. Convert for arguments types
-             */
-
-            // 1. Extract flags / options definitions of attributes
-            //    a) Check "already defined"
-            desc.ExtractFlagOptionOfAtrributes(desc.GetType());
-
-            // 2. Read flags / options
-            //    a) Check repeated flag / option
+            desc.ExtractFlagOptionOfAttributes();
             desc.ReadFlagsOptions(args);
-
-            // 3. Check if OPTION value is valid
-            // 4. Convert for arguments types
+            desc.ValidateOptionsAcceptedValues();
+            desc.PopulateOptionsAttributes();
 
             return desc;
         }
 
         /// <summary>
+        /// Validate option accepted values.
+        /// </summary>
+        private void ValidateOptionsAcceptedValues()
+        {
+            // TODO: Accepted values!
+        }
+
+        /// <summary>
+        /// Populate object options attributes
+        /// </summary>
+        private void PopulateOptionsAttributes()
+        {
+            foreach (var prop in GetType().GetProperties())
+            {
+                var optionAttr = prop.GetCustomAttribute(typeof(OptionAttribute)) as OptionAttribute;
+
+                if (optionAttr != null)
+                {
+                    ProgramOptionBase option = Spec.GetOptionByName(optionAttr.Name);
+
+                    if (option == null)
+                    {
+                        continue;
+                    }
+
+                    object optionValue = option.ConvertValueToType(prop.PropertyType);
+
+                    if (optionValue != null)
+                    {
+                        prop.SetValue(this, optionValue);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// Extract flags and options of type atrributes
         /// </summary>
-        /// <param name="typeInfo"><see cref="Type"/> instance</param>
-        private void ExtractFlagOptionOfAtrributes(Type typeInfo)
+        private void ExtractFlagOptionOfAttributes()
         {
-            foreach (var prop in typeInfo.GetProperties())
+            foreach (var prop in GetType().GetProperties())
             {
                 var option = prop.GetCustomAttribute(typeof(ProgramOptionAttribute));
                 var flag = prop.GetCustomAttribute(typeof(ProgramFlagAttribute));
@@ -383,6 +409,8 @@ namespace CommandLinePattern
                     }
                 });
             }
+
+            Arguments = remainingArgs.ToArray();
         }
     }
 }

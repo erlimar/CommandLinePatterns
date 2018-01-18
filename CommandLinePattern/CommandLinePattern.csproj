@@ -50,6 +50,7 @@
     <Compile Include="RepeatedOptionAction.cs" />
     <Compile Include="UnknownOptionAction.cs" />
     <Compile Include="RepeatedOptionException.cs" />
+    <Compile Include="ConvertOptionValueException.cs" />
     <Compile Include="UnknownOptionException.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

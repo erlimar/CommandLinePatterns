@@ -40,15 +40,7 @@ namespace CommandLinePatterns
         /// <param name="args">Command line arguments</param>
         public static void Main(string[] args)
         {
-            // args: -t? --test-only -c "Comando Informado" --username=MyUser -x="My secret =password"
             Debug.Print(string.Join(Environment.NewLine, args));
-            // Output:
-            // -t?
-            // --test-only
-            // -c
-            // Comando Informado
-            // --username=MyUser
-            // -x=My secret =password
 
             var program = Parse(new Program(), args);
 
