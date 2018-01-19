@@ -820,7 +820,7 @@ Se houve algum erro, este método retorna `TRUE`, aí o programa decide o que faze
 Este método é silencioso propositalmente. Caso você queira apresentar os erros
 encontrados, aí você deve ler o próximo item `EnsureErrorInformation()`.
 
-### EnsureErrorInformation()
+### EnsuresErrorInformation()
 
 Este método é basicamente um atalho para `EnsuresUsageInformation()`, porém com
 a garantia que os erros serão primeiramente apresentados, antes da informação **`USAGE!`**.
@@ -842,7 +842,7 @@ class Program : CommandLineWrapper
 {
     Program(string[] args) : base("cmd", "My Command Line App")
     {
-        EnsureErrorInformation();
+        EnsuresErrorInformation();
     }
 
     override void OnError(CommandLineErrorType typeError, CommandLineException exception)
