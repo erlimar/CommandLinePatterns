@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLinePattern", "Comma
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".solution", ".solution", "{A9CBDFB7-0730-4A2B-802E-F836FBF67393}"
 	ProjectSection(SolutionItems) = preProject
-		DRAFT.md = DRAFT.md
+		DOCS.md = DOCS.md
 		README.md = README.md
 		TODO.txt = TODO.txt
 	EndProjectSection

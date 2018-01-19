@@ -1,6 +1,8 @@
-# Suite de testes
+# Documentação `(RASCUNHO)`
 
-## CommandLineApp mínima
+Segue umas pequenas notas do que se pretende com esse projeto.
+
+#### CommandLineApp mínima
 
 ```csharp
 var cmdApp = new CommandLineApp("cmd", "My Command Line App");
@@ -13,7 +15,7 @@ cmdApp.PrintUsage();
 //     $ cmd [<options>|<flags>] [<args>]
 ```
 
-## CommandLineApp com versão
+#### CommandLineApp com versão
 
 ```csharp
 var cmdApp = new CommandLineApp("cmd", "My Command Line App");
@@ -28,7 +30,7 @@ cmdApp.PrintUsage();
 //     $ cmd [<options>|<flags>] [<args>]
 ```
 
-## CommandLineApp com direitos autorais
+#### CommandLineApp com direitos autorais
 
 ```csharp
 var cmdApp = new CommandLineApp("cmd", "My Command Line App");
@@ -44,7 +46,7 @@ cmdApp.PrintUsage();
 //     $ cmd [<options>|<flags>] [<args>]
 ```
 
-## CommandLineApp com sinopse
+#### CommandLineApp com sinopse
 
 ```csharp
 var cmdApp = new CommandLineApp("cmd", "My Command Line App");
@@ -68,7 +70,7 @@ cmdApp.PrintHelp();
 //     $ cmd [<options>|<flags>] [<args>]
 ```
 
-## CommandLineApp mais completo
+#### CommandLineApp mais completo
 
 ```csharp
 var cmdApp = new CommandLineApp("cmd", "My Command Line App")
@@ -101,7 +103,7 @@ cmdApp.PrintHelp();
 //     $ cmd [<options>|<flags>] [<args>]
 ```
 
-## Definindo e usando opções
+#### Definindo e usando opções
 
 ```csharp
 var cmdApp = new CommandLineApp("cmd", "My Command Line App");
