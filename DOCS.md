@@ -600,3 +600,254 @@ class Program : CommandLineWrapper
     static void Main(string[] args) => new Program(args);
 }
 ```
+
+## Noções avançadas
+
+Vamos agora falar de algumas _coisinhas_ que não foram colocadas nos exemplos
+anteriores pra não confundir quem está aprendendo agora. Porém falaremos agora,
+e isso é só porque você já sabe o básico (se não sabe, sugiro estudar os tópicos
+anteriores).
+
+## Métodos print
+
+1. Não imprimimos diretamente no console
+
+Entendo que a aplicação em si é na verdade a responsável por decidir qual a melhor
+forma de imprimir no console, ou usando _ILog interfaces_ ou o que preferir.
+
+Assim, em nossos métodos de impressão (`PrintHelp()`, `PrintUsage()` - e ainda
+tem o não mencionado `PrintVersion()`) na verdade a única coisa que acontece é
+que `CommandLineApp` formata a mensagem que precisa ser impressa e repassa isso
+a um `Delegate` definido pela aplicação. Se a aplicação não define um `Delegate`
+a mensagem simplesmente **não vai ser apresentada**.
+
+Você pode fazer isso usando **API Fluente**:
+
+```csharp
+cmdApp.OnPrint(string format, params object[] args)
+    => Console.WriteLine(format, args));
+```
+
+Ou em sua classe **Program**:
+
+```csharp
+class Program : CommandLineWrapper
+{
+    Program(string[] args) : base("cmd", "My Command Line App")
+    {
+        PrintUsage();
+    }
+
+    override void OnPrint(string format, params object[] args)
+        => Console.WriteLine(format, args);
+
+    static void Main(string[] args) => new Program(args);
+}
+```
+
+2. O método `PrintVersion()` que falamos antes
+
+Com **API Fluente**:
+
+```csharp
+var cmdApp = new CommandLineApp("cmd", "My Command Line App");
+
+cmdApp.Version("1.0.0-alpha-67890");
+
+cmdApp.PrintVersion();
+```
+_@output:_
+```
+1.0.0-alpha-67890
+```
+
+Com classe **Program**:
+
+```csharp
+class Program : CommandLineWrapper
+{
+    Program(string[] args) : base("cmd", "My Command Line App")
+    {
+        Version = "1.0.0-alpha-67890";
+
+        PrintVersion();
+    }
+
+    static void Main(string[] args) => new Program(args);
+}
+```
+_@output:_
+```
+1.0.0-alpha-67890
+```
+
+### Argumentos nomeados
+
+Com **API Fluente**:
+
+```csharp
+var cmdApp = new CommandLineApp("cmd", "My Command Line App")
+
+    .NamedArgument("Source", "The source file path", required: true)
+    .NamedArgument("Target", "The target file path", required: false);
+
+cmdApp.PrintUsage();
+```
+_@output:_
+```
+cmd - My Command Line App
+
+USAGE:
+    $ cmd <Source> [<Target>|<args>]
+```
+
+```csharp
+cmdApp.PrintHelp();
+```
+_@output:_
+```
+cmd - My Command Line App
+
+USAGE:
+    $ cmd <Source> [<Target>|<args>]
+
+ARGS:
+    <Source*>                   The source file path
+    <Target>                    The target file path
+
+(*) Argument is required
+```
+
+Com classe **Program**:
+
+```csharp
+class Program : CommandLineWrapper
+{
+    [NamedArgumentWrapper("The source file path", required: true)]
+    string Source { get; set; }
+
+    [NamedArgumentWrapper("The target file path")]
+    string Target { get; set; }
+
+    Program(string[] args) : base("cmd", "My Command Line App")
+    {
+        PrintUsage();
+    }
+
+    static void Main(string[] args) => new Program(args);
+}
+```
+_@output:_
+```
+cmd - My Command Line App
+
+USAGE:
+    $ cmd <Source> [<Target>|<args>]
+```
+
+```csharp
+class Program
+{
+    // ...
+
+    Program()
+    {
+        // ...
+
+        PrintHelp();
+    }
+}
+```
+_@output:_
+```
+cmd - My Command Line App
+
+USAGE:
+    $ cmd <Source> [<Target>|<args>]
+
+ARGS:
+    <Source*>                   The source file path
+    <Target>                    The target file path
+
+(*) Argument is required
+```
+
+### EnsuresHelpInformation()
+
+Não usamos `PrintHelp()` diretamente, mas chamamos o método `EnsuresHelpInformation()`,
+esse que verifica se o usuário informou `-h?|--help`, se sim, exibe a mensagem de ajuda
+e retorna `TRUE`, com o resultado o programa decide o que fazer, se para, continua,
+ou "sei lá o que".
+
+O usuário também pode definir o padrão para a **flag** de ajuda:
+
+Usando **API Fluente**
+
+```csharp
+cmdApp.HelpFlag
+      .Pattern("-h?|--help|--show-help")
+      .Description("Show this help message!");
+```
+
+Com classe **Program**:
+
+```csharp
+class Program : CommandLineWrapper
+{
+    [FlagWrapper("-h?|--help|--show-help", "Show this help message!")]
+    override bool Help { get; set; }
+
+    // ...
+}
+```
+
+### EnsuresUsageInformation()
+
+Este método é semelhante ao `EnsuresHelpInformation()`, porém sua responsabilidade
+é garantir que os parâmetros obrigatórios foram informados, e que os `Wrapper's`
+tiveram seus valores convertidos adequadamente para as propriedades com `annotations`.
+
+Quando o método `Parse()` é chamado, ele configura a aplicação e tenta fazer o `bind`
+dos dados dos parâmetros para suas propriedades. Neste momento, se algum erro for
+encontrado, ao invés de levantar uma exceção imediatamente ele **guarda** essas
+exceções e salva um estado de erro.
+
+Quando chamamos `EnsuresUsageInformation()` estamos na verdade querendo garantir que,
+se algum erro ocorreu, nós iremos apresentar a mensagem de **`USAGE!`**.
+
+Se houve algum erro, este método retorna `TRUE`, aí o programa decide o que fazer.
+
+Este método é silencioso propositalmente. Caso você queira apresentar os erros
+encontrados, aí você deve ler o próximo item `EnsureErrorInformation()`.
+
+### EnsureErrorInformation()
+
+Este método é basicamente um atalho para `EnsuresUsageInformation()`, porém com
+a garantia que os erros serão primeiramente apresentados, antes da informação **`USAGE!`**.
+
+E a impressão dos erros também só ocorre se o `Deletage` de Log de erros for
+configurado, assim como `OnPrint Delegate`:
+
+Você pode fazer isso usando **API Fluente**:
+
+```csharp
+cmdApp.OnError(CommandLineErrorType typeError, CommandLineException exception)
+    => Console.WriteLine("{0}: {1}", typeError, exception));
+```
+
+Ou em sua classe **Program**:
+
+```csharp
+class Program : CommandLineWrapper
+{
+    Program(string[] args) : base("cmd", "My Command Line App")
+    {
+        EnsureErrorInformation();
+    }
+
+    override void OnError(CommandLineErrorType typeError, CommandLineException exception)
+        => Console.WriteLine("{0}: {1}", typeError, exception));
+
+    static void Main(string[] args) => new Program(args);
+}
+```
