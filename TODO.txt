@@ -1,20 +1,40 @@
 * Quando adicionamos uma option por construtor `Spec.Option("Cmd", "-c", "...")`
   e referenciamos em uma propriedade com `[ProgramOption("Cmd")] string Prop {get; set;}`
-  a criaÁ„o se deu no construtor, e depois referenciamos em uma `Prop` mas sem
-  cri·-la novamente (o que levantaria uma exceÁ„o de opÁ„o j· especificada).
-  Mas aÌ entram os valores `[ProgramOptionValues(...)]` que precisam indicar qual
-  a sua opÁ„o.
+  a cria√ß√£o se deu no construtor, e depois referenciamos em uma `Prop` mas sem
+  cri√°-la novamente (o que levantaria uma exce√ß√£o de op√ß√£o j√° especificada).
+  Mas a√≠ entram os valores `[ProgramOptionValues(...)]` que precisam indicar qual
+  a sua op√ß√£o.
 
-  Hoje estamos considerando que a opÁ„o È a que est· (quando estiver, nesse caso se
-  tivermos um valor sem opÁ„o, ele ficar· Ûrf„o) na propriedade, por consequÍncia
-  sÛ podemos atribuir valores na propriedade e n„o no construtor.
+  Hoje estamos considerando que a op√ß√£o √© a que est√° (quando estiver, nesse caso se
+  tivermos um valor sem op√ß√£o, ele ficar√° √≥rf√£o) na propriedade, por consequ√™ncia
+  s√≥ podemos atribuir valores na propriedade e n√£o no construtor.
 
-  Pra fazer? Precisamos permitir essa configuraÁ„o funcionar de forma interligada,
+  Pra fazer? Precisamos permitir essa configura√ß√£o funcionar de forma interligada,
   seja por construtor ou por propriedades.
 
-  - Deve ser possÌvel criar a opÁ„o por construtor e informar os valores
-    possÌveis no propriedade.
-  - TambÈm deve ser possÌvel criar a opÁ„o por propriedade e informar os valores
-    possÌveis no construtor.
-  - A especificaÁ„o tardia talvez seja a soluÁ„o. Pra isso devemos deixar a geraÁ„o
-    dos objetos de especificaÁ„o, somente na chamada do `Parse(...)`.
+  - Deve ser poss√≠vel criar a op√ß√£o por construtor e informar os valores
+    poss√≠veis no propriedade.
+  - Tamb√©m deve ser poss√≠vel criar a op√ß√£o por propriedade e informar os valores
+    poss√≠veis no construtor.
+  - A especifica√ß√£o tardia talvez seja a solu√ß√£o. Pra isso devemos deixar a gera√ß√£o
+    dos objetos de especifica√ß√£o, somente na chamada do `Parse(...)`.
+
+* Em DOCS.md
+- Incluir forma de desabilitar a informa√ß√£o [<args>] dizendo que par√¢metros n√£o s√£o obrigat√≥rios
+
+Se n√£o tiver nem um par√¢metro nomeado
+$ cmd [<options>|<flags>]
+
+Se tiver argumento obrigat√≥rio
+$ cmd <Arg>
+
+Se tiver argumento n√£o obrigat√≥rio
+$ cmd [<Arg>]
+
+Se args n√£o foi desabitada
+
+E tem argumentos obrigat√≥rio
+$ cmd <Arg> [<args>]
+
+E t√™m argumentos n√£o obrigat√≥rio
+$ cmd [<Arg>|<args>]
