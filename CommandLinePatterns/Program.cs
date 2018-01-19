@@ -9,7 +9,7 @@ namespace CommandLinePatterns
 
     public class Program : ProgramDescription
     {
-        public Program() : base(new ProgramConsole(), PROGRAM_NAME, PROGRAM_DESCRIPTION, PROGRAM_SYNOPSIS)
+        public Program(IProgramConsole console) : base(console, PROGRAM_NAME, PROGRAM_DESCRIPTION, PROGRAM_SYNOPSIS)
         {
             UnknownOptionAction = ByPass;
 
@@ -52,8 +52,9 @@ namespace CommandLinePatterns
         public static void Main(string[] args)
         {
             Debug.Print(string.Join(Environment.NewLine, args));
-
-            var program = Parse(new Program(), args);
+            
+            IProgramConsole console = new ProgramConsole();
+            var program = Parse(new Program(console), args);
 
             if (program.EnsureShowHelp())
             {
