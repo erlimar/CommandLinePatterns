@@ -16,7 +16,7 @@ _@output:_
 cmd - My Command Line App
 
 USAGE:
-    $ cmd [<options>|<flags>] [<args>]
+    $ cmd [<args>]
 ```
 
 ### CommandLineApp com versão
@@ -33,7 +33,7 @@ _@output:_
 cmd - My Command Line App [version 1.0.0-alpha-67890]
 
 USAGE:
-    $ cmd [<options>|<flags>] [<args>]
+    $ cmd [<args>]
 ```
 
 ### CommandLineApp com direitos autorais
@@ -51,7 +51,7 @@ cmd - My Command Line App
 Copyright (c) 1991-2018 E5R Development Team. All rights reserved.
 
 USAGE:
-    $ cmd [<options>|<flags>] [<args>]
+    $ cmd [<args>]
 ```
 
 ### CommandLineApp com sinopse
@@ -77,7 +77,7 @@ exceptional library. In the next few lines you'll see how
 easy it is to write a command line program.
 
 USAGE:
-    $ cmd [<options>|<flags>] [<args>]
+    $ cmd [<args>]
 ```
 
 ### CommandLineApp mais completo
@@ -99,7 +99,7 @@ _@output:_
 cmd - My Command Line App [version 1.0.0-alpha-67890]
 
 USAGE:
-    $ cmd [<options>|<flags>] [<args>]
+    $ cmd [<args>]
 ```
 
 ```csharp
@@ -115,7 +115,7 @@ exceptional library. In the next few lines you'll see how
 easy it is to write a command line program.
 
 USAGE:
-    $ cmd [<options>|<flags>] [<args>]
+    $ cmd [<args>]
 ```
 
 ### Definindo e usando OPTION's
@@ -145,7 +145,7 @@ _@output:_
 cmd - My Command Line App
 
 USAGE:
-    $ cmd [<options>|<flags>] [<args>]
+    $ cmd [<options>] [<args>]
 
 OPTIONS:
     -a|--action <Action>        The app action
@@ -197,7 +197,7 @@ _@output:_
 cmd - My Command Line App
 
 USAGE:
-    $ cmd [<options>|<flags>] [<args>]
+    $ cmd [<flags>] [<args>]
 
 FLAGS:
     -v|--verbose                Print verbose messages
@@ -310,7 +310,7 @@ _@output:_
 cmd - My Command Line App
 
 USAGE:
-    $ cmd [<options>|<flags>] [<args>]
+    $ cmd [<args>]
 ```
 
 > **PS:** Observe que omitimos os modificadores de acesso  (`public`, `protected`, 
@@ -336,7 +336,7 @@ _@output:_
 cmd - My Command Line App [version 1.0.0-alpha-67890]
 
 USAGE:
-    $ cmd [<options>|<flags>] [<args>]
+    $ cmd [<args>]
 ```
 
 ### CommandLineApp com direitos autorais `(com Annotations)`
@@ -360,7 +360,7 @@ cmd - My Command Line App
 Copyright (c) 1991-2018 E5R Development Team. All rights reserved.
 
 USAGE:
-    $ cmd [<options>|<flags>] [<args>]
+    $ cmd [<args>]
 ```
 
 ### CommandLineApp com sinopse `(com Annotations)`
@@ -391,7 +391,7 @@ exceptional library. In the next few lines you'll see how
 easy it is to write a command line program.
 
 USAGE:
-    $ cmd [<options>|<flags>] [<args>]
+    $ cmd [<args>]
 ```
 
 Observe que aqui nós usamos o recurso de sobrescrita para a propriedade `Synopsis`,
@@ -426,7 +426,7 @@ _@output:_
 cmd - My Command Line App [version 1.0.0-alpha-67890]
 
 USAGE:
-    $ cmd [<options>|<flags>] [<args>]
+    $ cmd [<args>]
 ```
 
 ```csharp
@@ -452,7 +452,7 @@ exceptional library. In the next few lines you'll see how
 easy it is to write a command line program.
 
 USAGE:
-    $ cmd [<options>|<flags>] [<args>]
+    $ cmd [<args>]
 ```
 
 ### Definindo e usando OPTION's `(com Annotations)`
@@ -485,7 +485,7 @@ _@output:_
 cmd - My Command Line App
 
 USAGE:
-    $ cmd [<options>|<flags>] [<args>]
+    $ cmd [<options>] [<args>]
 
 OPTIONS:
     -a|--action <Action>        The app action
@@ -519,7 +519,7 @@ _@output:_
 cmd - My Command Line App
 
 USAGE:
-    $ cmd [<options>|<flags>] [<args>]
+    $ cmd [<flags>] [<args>]
 
 FLAGS:
     -v|--verbose                Print verbose messages
