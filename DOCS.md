@@ -190,3 +190,28 @@ CommandLineOptions options = cmdApp.Parse(args);
 Assert.True(options.Defined("Verbose"));
 Assert.False(options.Defined("NotFoundFlag"));
 ```
+
+#### Definindo e usando OPTION'S e FLAG's juntas
+
+```csharp
+var cmdApp = new CommandLineApp("cmd", "My Command Line App");
+
+cmdApp.Option("Action", "The app action")
+      .Template("-a|--action");
+
+cmdApp.Flag("Verbose", "Print verbose messages")
+      .Template("-v|--verbose");
+
+var args = new string[] { "-va", "My Action Value" };
+
+CommandLineOptions options = cmdApp.Parse(args);
+
+Assert.True(options.HasValue("Action"));
+Assert.Equal(options.ValueOf("Action"), "My Action Value");
+Assert.False(options.HasValue("NotFoundAction"));
+
+Assert.True(options.Defined("Verbose"));
+Assert.False(options.Defined("NotFoundFlag"));
+```
+
+**OBS:** Neste momento estamos usando a forma _curta_ dos argumentos.
