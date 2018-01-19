@@ -2,7 +2,7 @@
 
 Segue umas pequenas notas do que se pretende com esse projeto.
 
-#### CommandLineApp mínima
+### CommandLineApp mínima
 
 ```csharp
 var cmdApp = new CommandLineApp("cmd", "My Command Line App");
@@ -17,7 +17,7 @@ USAGE:
     $ cmd [<options>|<flags>] [<args>]
 ```
 
-#### CommandLineApp com versão
+### CommandLineApp com versão
 
 ```csharp
 var cmdApp = new CommandLineApp("cmd", "My Command Line App");
@@ -34,7 +34,7 @@ USAGE:
     $ cmd [<options>|<flags>] [<args>]
 ```
 
-#### CommandLineApp com direitos autorais
+### CommandLineApp com direitos autorais
 
 ```csharp
 var cmdApp = new CommandLineApp("cmd", "My Command Line App");
@@ -52,7 +52,7 @@ USAGE:
     $ cmd [<options>|<flags>] [<args>]
 ```
 
-#### CommandLineApp com sinopse
+### CommandLineApp com sinopse
 
 ```csharp
 var cmdApp = new CommandLineApp("cmd", "My Command Line App");
@@ -78,7 +78,7 @@ USAGE:
     $ cmd [<options>|<flags>] [<args>]
 ```
 
-#### CommandLineApp mais completo
+### CommandLineApp mais completo
 
 ```csharp
 var cmdApp = new CommandLineApp("cmd", "My Command Line App")
@@ -130,7 +130,7 @@ USAGE:
     $ cmd [<options>|<flags>] [<args>]
 ```
 
-#### Definindo e usando OPTION's
+### Definindo e usando OPTION's
 
 ```csharp
 var cmdApp = new CommandLineApp("cmd", "My Command Line App");
@@ -175,7 +175,7 @@ $ program --action "My Action Value"
 # { "--action", "My Action Value" }
 ```
 
-#### Definindo e usando FLAG's
+### Definindo e usando FLAG's
 
 ```csharp
 var cmdApp = new CommandLineApp("cmd", "My Command Line App");
@@ -191,7 +191,7 @@ Assert.True(options.Defined("Verbose"));
 Assert.False(options.Defined("NotFoundFlag"));
 ```
 
-#### Definindo e usando OPTION'S e FLAG's juntas
+### Definindo e usando OPTION'S e FLAG's juntas
 
 ```csharp
 var cmdApp = new CommandLineApp("cmd", "My Command Line App");
@@ -216,7 +216,7 @@ Assert.False(options.Defined("NotFoundFlag"));
 
 **OBS:** Neste momento estamos usando a forma _curta_ dos argumentos.
 
-#### Usando argumentos
+### Usando argumentos
 
 Você define suas **OPTION**'s e **FLAG**'s, e tudo que for passado para a
 linha de comando que não for uma **option** ou **flag** é um...
