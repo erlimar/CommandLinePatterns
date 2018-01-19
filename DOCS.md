@@ -41,7 +41,7 @@ USAGE:
 ```csharp
 var cmdApp = new CommandLineApp("cmd", "My Command Line App");
 
-cmdApp.Copyright("(c) 1991-%{YEAR} E5R Development Team. All rights reserved.");
+cmdApp.Copyright("(c) 1991-2018 E5R Development Team. All rights reserved.");
 
 cmdApp.PrintHelp();
 ```
@@ -86,7 +86,7 @@ USAGE:
 var cmdApp = new CommandLineApp("cmd", "My Command Line App")
 
     .Version("1.0.0-alpha-67890")
-    .Copyright("(c) 1991-%{YEAR} E5R Development Team. All rights reserved.")
+    .Copyright("(c) 1991-2018 E5R Development Team. All rights reserved.")
     .Synopsis(new string[] {
         "This is a my command line app to exemplify the use of this",
         "exceptional library. In the next few lines you'll see how",
@@ -307,7 +307,7 @@ class Program : CommandLineWrapper
 {
     Program(string[] args) : base("cmd", "My Command Line App")
     {
-        Copyright = "(c) 1991-%{YEAR} E5R Development Team. All rights reserved.";
+        Copyright = "(c) 1991-2018 E5R Development Team. All rights reserved.";
 
         PrintHelp();
     }
@@ -374,7 +374,7 @@ class Program : CommandLineWrapper
     Program(string[] args) : base("cmd", "My Command Line App")
     {
         Version = "1.0.0-alpha-67890";
-        Copyright = "(c) 1991-%{YEAR} E5R Development Team. All rights reserved.";
+        Copyright = "(c) 1991-2018 E5R Development Team. All rights reserved.";
 
         PrintUsage();
     }
