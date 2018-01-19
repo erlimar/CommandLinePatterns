@@ -146,7 +146,7 @@ var args = new string[] { "-a","My Action Value" };
 CommandLineOptions options = cmdApp.Parse(args);
 
 Assert.True(options.HasValue("Action"));
-Assert.Equal(options.ValueOf("Action"), "My Action Value");
+Assert.Equal("My Action Value", options.ValueOf("Action"));
 
 Assert.False(options.HasValue("NotFoundAction"));
 ```
@@ -207,11 +207,45 @@ var args = new string[] { "-va", "My Action Value" };
 CommandLineOptions options = cmdApp.Parse(args);
 
 Assert.True(options.HasValue("Action"));
-Assert.Equal(options.ValueOf("Action"), "My Action Value");
+Assert.Equal("My Action Value", options.ValueOf("Action"));
 Assert.False(options.HasValue("NotFoundAction"));
 
 Assert.True(options.Defined("Verbose"));
 Assert.False(options.Defined("NotFoundFlag"));
+```
+
+**OBS:** Neste momento estamos usando a forma _curta_ dos argumentos.
+
+#### Usando argumentos
+
+Você define suas **OPTION**'s e **FLAG**'s, e tudo que for passado para a
+linha de comando que não for uma **option** ou **flag** é um...
+
+**É UM ARGUMENTO!**
+
+Veja como usar abaixo.
+
+```csharp
+var cmdApp = new CommandLineApp(...);
+
+cmdApp.Option("Action", "The app action")
+      .Template("-a|--action");
+
+cmdApp.Flag("Verbose", "Print verbose messages")
+      .Template("-v|--verbose");
+
+var args = new string[] { "-va", "My Action Value", "Argument value", "--other" };
+
+CommandLineOptions options = cmdApp.Parse(args);
+
+Assert.NotEmpty(options.Arguments);
+Assert.Equal(2, options.Arguments.Length);
+
+Assert.DoesNotContain("-va", options.Arguments);
+Assert.DoesNotContain("My Action Value", options.Arguments);
+
+Assert.Contains("--other", options.Arguments);
+Assert.Contains("My Action Value", options.Arguments);
 ```
 
 **OBS:** Neste momento estamos usando a forma _curta_ dos argumentos.
