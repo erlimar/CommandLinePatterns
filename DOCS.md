@@ -137,6 +137,18 @@ Assert.True(options.Defined("Action"));
 Assert.Equal("My Action Value", options.ValueOf("Action"));
 
 Assert.False(options.Defined("NotFoundAction"));
+
+cmdApp.PrintHelp();
+```
+_@output:_
+```
+cmd - My Command Line App
+
+USAGE:
+    $ cmd [<options>|<flags>] [<args>]
+
+OPTIONS:
+    -a|--action <Action>        The app action
 ```
 
 Como visto acima, podemos informar uma opção de várias formas, veja:
@@ -177,6 +189,18 @@ CommandLineOptions options = cmdApp.Parse(args);
 
 Assert.True(options.Defined("Verbose"));
 Assert.False(options.Defined("NotFoundFlag"));
+
+cmdApp.Printhelp();
+```
+_@output:_
+```
+cmd - My Command Line App
+
+USAGE:
+    $ cmd [<options>|<flags>] [<args>]
+
+FLAGS:
+    -v|--verbose                Print verbose messages
 ```
 
 ### Definindo e usando OPTION'S e FLAG's juntas
@@ -200,6 +224,21 @@ Assert.False(options.Defined("NotFoundAction"));
 
 Assert.True(options.Defined("Verbose"));
 Assert.False(options.Defined("NotFoundFlag"));
+
+cmdApp.PrintHelp();
+```
+_@output:_
+```
+cmd - My Command Line App
+
+USAGE:
+    $ cmd [<options>|<flags>] [<args>]
+
+OPTIONS:
+    -a|--action <Action>        The app action
+
+FLAGS:
+    -v|--verbose                Print verbose messages
 ```
 
 **OBS:** Neste momento estamos usando a forma _curta_ dos argumentos.
@@ -433,11 +472,23 @@ class Program : CommandLineWrapper
         Assert.Equal("My Action Value", Action);
         Assert.True(Defined(nameof(Action)));
         Assert.False(Defined("NotFoundAction"));
+
+        PrintHelp();
     }
 
     // @args: { "--action", "My Action Value" }
     static void Main(string[] args) => new Program(args);
 }
+```
+_@output:_
+```
+cmd - My Command Line App
+
+USAGE:
+    $ cmd [<options>|<flags>] [<args>]
+
+OPTIONS:
+    -a|--action <Action>        The app action
 ```
 
 ### Definindo e usando FLAG's `(com Annotations)`
@@ -455,11 +506,23 @@ class Program : CommandLineWrapper
         Assert.True(Verbose);
         Assert.True(Defined(nameof(Verbose)));
         Assert.False(Defined("NotFoundFlag"));
+
+        PrintHelp();
     }
 
     // @args: { "--verbose" }
     static void Main(string[] args) => new Program(args);
 }
+```
+_@output:_
+```
+cmd - My Command Line App
+
+USAGE:
+    $ cmd [<options>|<flags>] [<args>]
+
+FLAGS:
+    -v|--verbose                Print verbose messages
 ```
 
 ### Definindo e usando OPTION'S e FLAG's juntas `(com Annotations)`
@@ -486,11 +549,26 @@ class Program : CommandLineWrapper
         Assert.True(Verbose);
         Assert.True(Defined(nameof(Verbose)));
         Assert.False(Defined("NotFoundFlag"));
+
+        PrintHelp();
     }
 
     // @args: { "-va", "My Action Value" }
     static void Main(string[] args) => new Program(args);
 }
+```
+_@output:_
+```
+cmd - My Command Line App
+
+USAGE:
+    $ cmd [<options>|<flags>] [<args>]
+
+OPTIONS:
+    -a|--action <Action>        The app action
+
+FLAGS:
+    -v|--verbose                Print verbose messages
 ```
 
 ### Usando argumentos `(com Annotations)`
