@@ -8,11 +8,13 @@ Segue umas pequenas notas do que se pretende com esse projeto.
 var cmdApp = new CommandLineApp("cmd", "My Command Line App");
 
 cmdApp.PrintUsage();
+```
+_@output:_
+```
+cmd - My Command Line App
 
-// cmd - My Command Line App
-// 
-// USAGE:
-//     $ cmd [<options>|<flags>] [<args>]
+USAGE:
+    $ cmd [<options>|<flags>] [<args>]
 ```
 
 #### CommandLineApp com versão
@@ -23,11 +25,13 @@ var cmdApp = new CommandLineApp("cmd", "My Command Line App");
 cmdApp.Version("1.0.0-alpha-67890");
 
 cmdApp.PrintUsage();
+```
+_@output:_
+```
+cmd - My Command Line App [version 1.0.0-alpha-67890]
 
-// cmd - My Command Line App [version 1.0.0-alpha-67890]
-// 
-// USAGE:
-//     $ cmd [<options>|<flags>] [<args>]
+USAGE:
+    $ cmd [<options>|<flags>] [<args>]
 ```
 
 #### CommandLineApp com direitos autorais
@@ -38,12 +42,14 @@ var cmdApp = new CommandLineApp("cmd", "My Command Line App");
 cmdApp.Copyright("(c) 1991-%{YEAR} E5R Development Team. All rights reserved.");
 
 cmdApp.PrintUsage();
+```
+_@output:_
+```
+cmd - My Command Line App
+Copyright (c) 1991-2018 E5R Development Team. All rights reserved.
 
-// cmd - My Command Line App
-// Copyright (c) 1991-2018 E5R Development Team. All rights reserved.
-// 
-// USAGE:
-//     $ cmd [<options>|<flags>] [<args>]
+USAGE:
+    $ cmd [<options>|<flags>] [<args>]
 ```
 
 #### CommandLineApp com sinopse
@@ -59,15 +65,17 @@ cmdApp.Synopsis(new string[]
 });
 
 cmdApp.PrintHelp();
+```
+_@output:_
+```
+cmd - My Command Line App
 
-// cmd - My Command Line App
-// 
-// This is a my command line app to exemplify the use of this
-// exceptional library. In the next few lines you'll see how
-// easy it is to write a command line program.
-// 
-// USAGE:
-//     $ cmd [<options>|<flags>] [<args>]
+This is a my command line app to exemplify the use of this
+exceptional library. In the next few lines you'll see how
+easy it is to write a command line program.
+
+USAGE:
+    $ cmd [<options>|<flags>] [<args>]
 ```
 
 #### CommandLineApp mais completo
@@ -83,24 +91,43 @@ var cmdApp = new CommandLineApp("cmd", "My Command Line App")
         "easy it is to write a command line program." });
 
 cmdApp.PrintUsage();
+```
+_@output:_
+```
+cmd - My Command Line App [version 1.0.0-alpha-67890]
+Copyright (c) 1991-2018 E5R Development Team. All rights reserved.
 
-// cmd - My Command Line App [version 1.0.0-alpha-67890]
-// Copyright (c) 1991-2018 E5R Development Team. All rights reserved.
-// 
-// USAGE:
-//     $ cmd [<options>|<flags>] [<args>]
+USAGE:
+    $ cmd [<options>|<flags>] [<args>]
+```
 
+```csharp
 cmdApp.PrintHelp();
+```
+_@output:_
+```
+cmd - My Command Line App [version 1.0.0-alpha-67890]
+Copyright (c) 1991-2018 E5R Development Team. All rights reserved.
 
-// cmd - My Command Line App [version 1.0.0-alpha-67890]
-// Copyright (c) 1991-2018 E5R Development Team. All rights reserved.
-// 
-// This is a my command line app to exemplify the use of this
-// exceptional library. In the next few lines you'll see how
-// easy it is to write a command line program.
-// 
-// USAGE:
-//     $ cmd [<options>|<flags>] [<args>]
+This is a my command line app to exemplify the use of this
+exceptional library. In the next few lines you'll see how
+easy it is to write a command line program.
+
+USAGE:
+    $ cmd [<options>|<flags>] [<args>]
+```
+
+_@output:_
+```
+cmd - My Command Line App [version 1.0.0-alpha-67890]
+Copyright (c) 1991-2018 E5R Development Team. All rights reserved.
+
+This is a my command line app to exemplify the use of this
+exceptional library. In the next few lines you'll see how
+easy it is to write a command line program.
+
+USAGE:
+    $ cmd [<options>|<flags>] [<args>]
 ```
 
 #### Definindo e usando opções
