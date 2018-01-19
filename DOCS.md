@@ -850,4 +850,9 @@ class Program : CommandLineWrapper
 
     static void Main(string[] args) => new Program(args);
 }
+
+enum CommandLineErrorType 
+{
+    // TODO: ...
+}
 ```
