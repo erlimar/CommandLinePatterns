@@ -130,7 +130,7 @@ USAGE:
     $ cmd [<options>|<flags>] [<args>]
 ```
 
-#### Definindo e usando opções
+#### Definindo e usando OPTION's
 
 ```csharp
 var cmdApp = new CommandLineApp("cmd", "My Command Line App");
@@ -167,10 +167,26 @@ $ program --action="My Action Value"
 # { "--action=""My Action Value""" }
 ```
 
-Mas para fins de didática, usaremos sempre a mesma forma abaixo para simplificar
+Mas para fins didáticos, usaremos sempre a mesma forma abaixo para simplificar
 o entendimento (porém você está livre para usar a forma que preferir):
 
 ```powershell
-$ program -a "My Action Value"
-# { "-a", "My Action Value" }
+$ program --action "My Action Value"
+# { "--action", "My Action Value" }
+```
+
+#### Definindo e usando FLAG's
+
+```csharp
+var cmdApp = new CommandLineApp("cmd", "My Command Line App");
+
+cmdApp.Flag("Verbose", "Print verbose messages")
+      .Template("-v|--verbose");
+
+var args = new string[] { "--verbose" };
+
+CommandLineOptions options = cmdApp.Parse(args);
+
+Assert.True(options.Defined("Verbose"));
+Assert.False(options.Defined("NotFoundFlag"));
 ```
