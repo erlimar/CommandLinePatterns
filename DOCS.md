@@ -111,10 +111,39 @@ var cmdApp = new CommandLineApp("cmd", "My Command Line App");
 cmdApp.Option("Action", "The app action")
       .Template("-a|--action");
 
-var args = new string[] { "-a", "My Action Value" };
+var args = new string[] { "-a","My Action Value" };
+                  // or { "-a=""My Action Value""" };
+                  // or { "--action","My Action Value" };
+                  // or { "--action=""My Action Value""" };
 
 CommandLineOptions options = cmdApp.Parse(args);
 
 Assert.True(options.HasValue("Action"));
 Assert.Equal(options.ValueOf("Action"), "My Action Value");
+
+Assert.False(options.HasValue("NotFoundAction"));
+```
+
+Como visto acima, podemos informar uma opção de várias formas, veja:
+
+```powershell
+$ program -a "My Action Value"
+# { "-a", "My Action Value" }
+
+$ program -a="My Action Value"
+# { "-a="My Action Value" }
+
+$ program --action "My Action Value"
+# { "--action", "My Action Value" }
+
+$ program --action="My Action Value"
+# { "--action=""My Action Value""" }
+```
+
+Mas para fins de didática, usaremos sempre a mesma forma abaixo para simplificar
+o entendimento (porém você está livre para usar a forma que preferir):
+
+```powershell
+$ program -a "My Action Value"
+# { "-a", "My Action Value" }
 ```
