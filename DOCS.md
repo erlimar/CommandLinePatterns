@@ -1071,15 +1071,23 @@ os parâmetros nomeados se existirem, e executamos o __command__ __`<RootCommand
 O __`<RootCommand>`__ poderia ser um método na classe de programa:
 
 ```csharp
-class Program : CommandLineWrapper
+class CommandLineProgram : CommandLineWrapper
 {
-    Program(string[] args) : base("cmd", "My Command Line App") { }
+    override string[] Synopsis { get; set; } = {
+        "This is a my command line app to exemplify the use of this",
+        "exceptional library. In the next few lines you'll see how",
+        "easy it is to write a command line program."
+    };
 
+    CommandLineProgram() : base("cmd", "My Command Line App")
+    {
+        Version = "1.0.0-alpha-67890";
+        Copyright = "(c) 1991-2018 E5R Development Team. All rights reserved.";
+    }
+    
     override void RootCommand()
     {
         // TODO: Implements!
     }
-
-    static void Main(string[] args) => Launch(args);
 }
 ```
