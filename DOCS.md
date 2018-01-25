@@ -879,8 +879,11 @@ class CommandLineCommands : CommandsWrapper
 
     [CommandWrapper("Print hello world message")]
     void Hello(
-        [ParamWrapper] string name,
-        [ParamWrapper(false)] string secondName)
+        [ParamWrapper("The first name to print")]
+        string name,
+        
+        [ParamWrapper("The second name to print", required: false)]
+        string secondName)
     {
         if(!string.IsNullOrEmpry(secondName))
         {
