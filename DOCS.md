@@ -962,7 +962,7 @@ $ program hello Erlimar
 ```
 _@output:_
 ```
-Hello Erlimar. Welcome to the World!
+Hello Erlimar. Welcome to the cmd World!
 ```
 
 ```powershell
@@ -970,7 +970,7 @@ $ program hello Erlimar "Silva Campos"
 ```
 _@output:_
 ```
-Hello Silva Campos, Erlimar. Welcome to the World!
+Hello Silva Campos, Erlimar. Welcome to the cmd World!
 ```
 
 ### Um problema
