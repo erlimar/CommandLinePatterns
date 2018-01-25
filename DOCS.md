@@ -857,6 +857,33 @@ enum CommandLineErrorType
 }
 ```
 
+### Args opcional
+
+Caso você não queira que a opção `<args>` apareça na informação de `USAGE:`, você pode
+definir a propriedade `ShowArgs` como `false`.
+
+Por padrão é assim:
+```
+USAGE:
+    $ cmd [<options>|<flags>] [<args>]
+```
+
+Você pode desabilitar usando __API Fluente:__
+```csharp
+cmdApp.ShowArgs(false);
+```
+
+Ou em sua classe __Program:__
+```csharp
+class Program : CommandLineWrapper
+{
+    Program(string[] args) : base("cmd", "My Command Line App")
+    {
+        ShowArgs = false;
+    }
+}
+```
+
 ## Só uma ideia
 
 Em todos os exemplos que encontrei (só alguns na verdade), vi que o foco era a execução
