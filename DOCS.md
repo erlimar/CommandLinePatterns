@@ -1053,7 +1053,7 @@ Aqui nós mostramos tudo:
 Então no fim o que temos são duas formas de usar, ou seja, duas seções `USAGE:`, onde o usuário vai escolher
 como usar:
 
-1. chamando um comando específico
+1. Chamando um comando específico;
 2. Ou só chamando o programa (o que seria como chamar um comando principal, algo como `RootCommand`).
 
 #### Na execução
