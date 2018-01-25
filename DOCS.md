@@ -986,9 +986,9 @@ ARGS:
 
 COMMANDS:
     Hello                       Print hello world message
-	    Args:
-	    - name                  The first name to print
-	    - secondName            The second name to print
+        Args:
+        - name                  The first name to print
+        - secondName            The second name to print
 
 OPTIONS:
     -a|--action <Action>        The app action
