@@ -903,11 +903,59 @@ e auxílio a exibição de ajuda, ou unir isso a um fluxo padrão para execuçã
 
 Abaixo só alguns rascunhos:
 
-#### 1. Definimos nossos comandos
+#### 1. Definimos nosso programa
 
 Na __API Fluente:__
 ```csharp
-// TODO: Implements!
+var cmdApp = new CommandLineApp("cmd", "My Command Line App")
+
+    .Version("1.0.0-alpha-67890")
+    .Copyright("(c) 1991-2018 E5R Development Team. All rights reserved.")
+    .Synopsis(new string[] {
+        "This is a my command line app to exemplify the use of this",
+        "exceptional library. In the next few lines you'll see how",
+        "easy it is to write a command line program." });
+```
+
+Na nossa classe __Program:__
+```csharp
+class CommandLineProgram : CommandLineWrapper
+{
+    override string[] Synopsis { get; set; } = {
+        "This is a my command line app to exemplify the use of this",
+        "exceptional library. In the next few lines you'll see how",
+        "easy it is to write a command line program."
+    };
+
+    CommandLineProgram() : base("cmd", "My Command Line App")
+    {
+        Version = "1.0.0-alpha-67890";
+        Copyright = "(c) 1991-2018 E5R Development Team. All rights reserved.";
+    }
+}
+```
+
+#### 2. Definimos nossos comandos
+
+Na __API Fluente:__
+```csharp
+var commands = new CommandLineCommands();
+
+commands.Add("Hello", "Print hello world message")
+        .Param("name", "The first name to print")
+        .Param("secondName", "The second name to print", required: false)
+        .Exec((CommandLineApp cmdApp, CommandLineParams @params) =>
+        {
+            string name = @params.Get<string>("name");
+            string secondName = @params.Get<string>("secondName");
+            
+            if(!string.IsNullOrEmpry(secondName))
+            {
+                name = $"{secondName}, youName";
+            }
+
+            Say($"Hello {name}. Welcome to the {cmdApp.Name} World!");
+        });
 ```
 
 Na nossa classe __Program:__
@@ -934,36 +982,13 @@ class CommandLineCommands : CommandsWrapper
 }
 ```
 
-#### 2. Definimos nosso programa
-
-Na __API Fluente:__
-```csharp
-// TODO: Implements!
-```
-
-Na nossa classe __Program:__
-```csharp
-class CommandLineProgram : CommandLineWrapper
-{
-    override string[] Synopsis { get; set; } = {
-        "This is a my command line app to exemplify the use of this",
-        "exceptional library. In the next few lines you'll see how",
-        "easy it is to write a command line program."
-    };
-
-    CommandLineProgram() : base("cmd", "My Command Line App")
-    {
-        Version = "1.0.0-alpha-67890";
-        Copyright = "(c) 1991-2018 E5R Development Team. All rights reserved.";
-    }
-}
-```
-
 #### 3. E enfim, definimos nosso programa que executa comandos
 
 Na __API Fluente:__
 ```csharp
-// TODO: Implements!
+var cmdFull = new CommandLineAppFull(cmdApp, commands);
+
+cmdFull.Launch(args);
 ```
 
 Na nossa classe __Program:__
