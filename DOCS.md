@@ -884,6 +884,12 @@ class Program : CommandLineWrapper
 }
 ```
 
+No fim, ficará assim:
+```
+USAGE:
+    $ cmd [<options>|<flags>]
+```
+
 ## Só uma ideia
 
 Em todos os exemplos que encontrei (só alguns na verdade), vi que o foco era a execução
