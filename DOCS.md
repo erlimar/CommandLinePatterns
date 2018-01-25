@@ -899,7 +899,7 @@ programa.
 
 Mas em alguns casos, é útil ter esse auxílio a execução de comandos. Então, segue uma
 ideia de como podemos ter o melhor dos dois mundos, ou só a análise da linha de comando
-e auxílio a exibição de ajdua, ou unir isso a um fluxo padrão para execução de comandos.
+e auxílio a exibição de ajuda, ou unir isso a um fluxo padrão para execução de comandos.
 
 Abaixo só alguns rascunhos:
 
