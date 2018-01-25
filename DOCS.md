@@ -1,10 +1,10 @@
-# DocumentaÁ„o `(RASCUNHO)`
+# Documenta√ß√£o `(RASCUNHO)`
 
 Segue umas pequenas notas do que se pretende com esse projeto.
 
-## NoÁıes b·sicas
+## No√ß√µes b√°sicas
 
-### CommandLineApp mÌnima
+### CommandLineApp m√≠nima
 
 ```csharp
 var cmdApp = new CommandLineApp("cmd", "My Command Line App");
@@ -19,7 +19,7 @@ USAGE:
     $ cmd [<args>]
 ```
 
-### CommandLineApp com vers„o
+### CommandLineApp com vers√£o
 
 ```csharp
 var cmdApp = new CommandLineApp("cmd", "My Command Line App");
@@ -151,7 +151,7 @@ OPTIONS:
     -a|--action <Action>        The app action
 ```
 
-Como visto acima, podemos informar uma opÁ„o de v·rias formas, veja:
+Como visto acima, podemos informar uma op√ß√£o de v√°rias formas, veja:
 
 ```powershell
 $ program -a "My Action Value"
@@ -167,8 +167,8 @@ $ program --action="My Action Value"
 # { "--action=""My Action Value""" }
 ```
 
-Mas para fins did·ticos, usaremos sempre a mesma forma abaixo para simplificar
-o entendimento (porÈm vocÍ est· livre para usar a forma que preferir):
+Mas para fins did√°ticos, usaremos sempre a mesma forma abaixo para simplificar
+o entendimento (por√©m voc√™ est√° livre para usar a forma que preferir):
 
 ```powershell
 $ program --action "My Action Value"
@@ -245,10 +245,10 @@ FLAGS:
 
 ### Usando argumentos
 
-VocÍ define suas **OPTION**'s e **FLAG**'s, e tudo que for passado para a
-linha de comando que n„o for uma **option** ou **flag** È um...
+Voc√™ define suas **OPTION**'s e **FLAG**'s, e tudo que for passado para a
+linha de comando que n√£o for uma **option** ou **flag** √© um...
 
-**… UM ARGUMENTO!**
+**√â UM ARGUMENTO!**
 
 Veja como usar abaixo.
 
@@ -277,22 +277,22 @@ Assert.Contains("My Action Value", options.Arguments);
 
 **OBS:** Neste momento estamos usando a forma _curta_ dos argumentos.
 
-## NoÁıes mais elegantes
+## No√ß√µes mais elegantes
 
-AlÈm de usar `CommandLineApp` para configurar sua aplicaÁ„o de forma explÌcita
-como vimos atÈ agora, uma outra forma de fazer isso È usando anotaÁıes.
+Al√©m de usar `CommandLineApp` para configurar sua aplica√ß√£o de forma expl√≠cita
+como vimos at√© agora, uma outra forma de fazer isso √© usando anota√ß√µes.
 
-Na verdade essa È a forma que prefixo e recomendo para configurar sua `CommandLineApp`.
+Na verdade essa √© a forma que prefixo e recomendo para configurar sua `CommandLineApp`.
 
-Como normalmente um programa de linha de comando tem a famosa classe `Program` (n„o
-que isso seja obrigatÛrio), essa È por padr„o a descriÁ„o de nossa aplicaÁ„o.
+Como normalmente um programa de linha de comando tem a famosa classe `Program` (n√£o
+que isso seja obrigat√≥rio), essa √© por padr√£o a descri√ß√£o de nossa aplica√ß√£o.
 
-E usando as anotaÁıes podemos **"efeit·-la"** para corresponder nossa aplicaÁ„o mais **BELA**.
+E usando as anota√ß√µes podemos **"efeit√°-la"** para corresponder nossa aplica√ß√£o mais **BELA**.
 
-Nas linhas abaixo vamos repetir os exemplos que j· mostramos atÈ agora, porÈm usanso
-anotaÁıes ao invÈs da **API Fluente**.
+Nas linhas abaixo vamos repetir os exemplos que j√° mostramos at√© agora, por√©m usanso
+anota√ß√µes ao inv√©s da **API Fluente**.
 
-### CommandLineApp mÌnima `(com Annotations)`
+### CommandLineApp m√≠nima `(com Annotations)`
 
 ```csharp
 class Program : CommandLineWrapper
@@ -314,9 +314,9 @@ USAGE:
 ```
 
 > **PS:** Observe que omitimos os modificadores de acesso  (`public`, `protected`, 
-> `private`) por questıes did·ticas e pra facilitar a leitura.
+> `private`) por quest√µes did√°ticas e pra facilitar a leitura.
 
-### CommandLineApp com vers„o `(com Annotations)`
+### CommandLineApp com vers√£o `(com Annotations)`
 
 ```csharp
 class Program : CommandLineWrapper
@@ -394,10 +394,10 @@ USAGE:
     $ cmd [<args>]
 ```
 
-Observe que aqui nÛs usamos o recurso de sobrescrita para a propriedade `Synopsis`,
-mas vocÍ tambÈm poderia tÍ-la atribuÌdo no construtor da mesma forma que fez com
-`Version` e `Copyright`; bem como, tambÈm pode usar o recurso de sobrescrita
-para essas propriedades tambÈm.
+Observe que aqui n√≥s usamos o recurso de sobrescrita para a propriedade `Synopsis`,
+mas voc√™ tamb√©m poderia t√™-la atribu√≠do no construtor da mesma forma que fez com
+`Version` e `Copyright`; bem como, tamb√©m pode usar o recurso de sobrescrita
+para essas propriedades tamb√©m.
 
 ### CommandLineApp mais completo `(com Annotations)`
 
@@ -601,27 +601,27 @@ class Program : CommandLineWrapper
 }
 ```
 
-## NoÁıes avanÁadas
+## No√ß√µes avan√ßadas
 
-Vamos agora falar de algumas _coisinhas_ que n„o foram colocadas nos exemplos
-anteriores pra n„o confundir quem est· aprendendo agora. PorÈm falaremos agora,
-e isso È sÛ porque vocÍ j· sabe o b·sico (se n„o sabe, sugiro estudar os tÛpicos
+Vamos agora falar de algumas _coisinhas_ que n√£o foram colocadas nos exemplos
+anteriores pra n√£o confundir quem est√° aprendendo agora. Por√©m falaremos agora,
+e isso √© s√≥ porque voc√™ j√° sabe o b√°sico (se n√£o sabe, sugiro estudar os t√≥picos
 anteriores).
 
-## MÈtodos print
+### M√©todos print
 
-1. N„o imprimimos diretamente no console
+1. N√£o imprimimos diretamente no console
 
-Entendo que a aplicaÁ„o em si È na verdade a respons·vel por decidir qual a melhor
+Entendo que a aplica√ß√£o em si √© na verdade a respons√°vel por decidir qual a melhor
 forma de imprimir no console, ou usando _ILog interfaces_ ou o que preferir.
 
-Assim, em nossos mÈtodos de impress„o (`PrintHelp()`, `PrintUsage()` - e ainda
-tem o n„o mencionado `PrintVersion()`) na verdade a ˙nica coisa que acontece È
+Assim, em nossos m√©todos de impress√£o (`PrintHelp()`, `PrintUsage()` - e ainda
+tem o n√£o mencionado `PrintVersion()`) na verdade a √∫nica coisa que acontece √©
 que `CommandLineApp` formata a mensagem que precisa ser impressa e repassa isso
-a um `Delegate` definido pela aplicaÁ„o. Se a aplicaÁ„o n„o define um `Delegate`
-a mensagem simplesmente **n„o vai ser apresentada**.
+a um `Delegate` definido pela aplica√ß√£o. Se a aplica√ß√£o n√£o define um `Delegate`
+a mensagem simplesmente **n√£o vai ser apresentada**.
 
-VocÍ pode fazer isso usando **API Fluente**:
+Voc√™ pode fazer isso usando **API Fluente**:
 
 ```csharp
 cmdApp.OnPrint(string format, params object[] args)
@@ -645,7 +645,7 @@ class Program : CommandLineWrapper
 }
 ```
 
-2. O mÈtodo `PrintVersion()` que falamos antes
+2. O m√©todo `PrintVersion()` que falamos antes
 
 Com **API Fluente**:
 
@@ -774,12 +774,12 @@ ARGS:
 
 ### EnsuresHelpInformation()
 
-N„o usamos `PrintHelp()` diretamente, mas chamamos o mÈtodo `EnsuresHelpInformation()`,
-esse que verifica se o usu·rio informou `-h?|--help`, se sim, exibe a mensagem de ajuda
+N√£o usamos `PrintHelp()` diretamente, mas chamamos o m√©todo `EnsuresHelpInformation()`,
+esse que verifica se o usu√°rio informou `-h?|--help`, se sim, exibe a mensagem de ajuda
 e retorna `TRUE`, com o resultado o programa decide o que fazer, se para, continua,
-ou "sei l· o que".
+ou "sei l√° o que".
 
-O usu·rio tambÈm pode definir o padr„o para a **flag** de ajuda:
+O usu√°rio tamb√©m pode definir o padr√£o para a **flag** de ajuda:
 
 Usando **API Fluente**
 
@@ -803,32 +803,32 @@ class Program : CommandLineWrapper
 
 ### EnsuresUsageInformation()
 
-Este mÈtodo È semelhante ao `EnsuresHelpInformation()`, porÈm sua responsabilidade
-È garantir que os par‚metros obrigatÛrios foram informados, e que os `Wrapper's`
+Este m√©todo √© semelhante ao `EnsuresHelpInformation()`, por√©m sua responsabilidade
+√© garantir que os par√¢metros obrigat√≥rios foram informados, e que os `Wrapper's`
 tiveram seus valores convertidos adequadamente para as propriedades com `annotations`.
 
-Quando o mÈtodo `Parse()` È chamado, ele configura a aplicaÁ„o e tenta fazer o `bind`
-dos dados dos par‚metros para suas propriedades. Neste momento, se algum erro for
-encontrado, ao invÈs de levantar uma exceÁ„o imediatamente ele **guarda** essas
-exceÁıes e salva um estado de erro.
+Quando o m√©todo `Parse()` √© chamado, ele configura a aplica√ß√£o e tenta fazer o `bind`
+dos dados dos par√¢metros para suas propriedades. Neste momento, se algum erro for
+encontrado, ao inv√©s de levantar uma exce√ß√£o imediatamente ele **guarda** essas
+exce√ß√µes e salva um estado de erro.
 
 Quando chamamos `EnsuresUsageInformation()` estamos na verdade querendo garantir que,
-se algum erro ocorreu, nÛs iremos apresentar a mensagem de **`USAGE!`**.
+se algum erro ocorreu, n√≥s iremos apresentar a mensagem de **`USAGE!`**.
 
-Se houve algum erro, este mÈtodo retorna `TRUE`, aÌ o programa decide o que fazer.
+Se houve algum erro, este m√©todo retorna `TRUE`, a√≠ o programa decide o que fazer.
 
-Este mÈtodo È silencioso propositalmente. Caso vocÍ queira apresentar os erros
-encontrados, aÌ vocÍ deve ler o prÛximo item `EnsureErrorInformation()`.
+Este m√©todo √© silencioso propositalmente. Caso voc√™ queira apresentar os erros
+encontrados, a√≠ voc√™ deve ler o pr√≥ximo item `EnsureErrorInformation()`.
 
 ### EnsuresErrorInformation()
 
-Este mÈtodo È basicamente um atalho para `EnsuresUsageInformation()`, porÈm com
-a garantia que os erros ser„o primeiramente apresentados, antes da informaÁ„o **`USAGE!`**.
+Este m√©todo √© basicamente um atalho para `EnsuresUsageInformation()`, por√©m com
+a garantia que os erros ser√£o primeiramente apresentados, antes da informa√ß√£o **`USAGE!`**.
 
-E a impress„o dos erros tambÈm sÛ ocorre se o `Deletage` de Log de erros for
+E a impress√£o dos erros tamb√©m s√≥ ocorre se o `Deletage` de Log de erros for
 configurado, assim como `OnPrint Delegate`:
 
-VocÍ pode fazer isso usando **API Fluente**:
+Voc√™ pode fazer isso usando **API Fluente**:
 
 ```csharp
 cmdApp.OnError(CommandLineErrorType typeError, CommandLineException exception)
@@ -854,5 +854,67 @@ class Program : CommandLineWrapper
 enum CommandLineErrorType 
 {
     // TODO: ...
+}
+```
+
+## S√≥ uma ideia
+
+Em todos os exemplos que encontrei (s√≥ alguns na verdade), vi que o foco era a execu√ß√£o
+de comandos. No meu caso, queria focar na exibi√ß√£o de ajuda e avalia√ß√£o dos par√¢metros.
+O que a aplica√ß√£o deve fazer, acredito que isso fique a cargo do projetista do pr√≥prio
+programa.
+
+Mas em alguns casos, √© √∫til ter esse aux√≠lio a execu√ß√£o de comandos. Ent√£o, segue uma
+ideia de como podemos ter o melhor dos dois mundos, ou s√≥ a an√°lise da linha de comando
+e aux√≠lio a exibi√ß√£o de ajdua, ou unir isso a um fluxo padr√£o para execu√ß√£o de comandos.
+
+Abaixo s√≥ alguns rascunhos:
+
+
+#### 1. Definimos nossos comandos
+```csharp
+class CommandLineCommands : CommandsWrapper
+{
+    CommandLineCommands(CommandLineWrapper program) : base(program) { }
+
+    [CommandWrapper("Print hello world message")]
+    void Hello(
+        [ParamWrapper] string name,
+        [ParamWrapper(false)] string secondName)
+    {
+        if(!string.IsNullOrEmpry(secondName))
+        {
+            name = $"{secondName}, youName";
+        }
+
+        Say($"Hello {name}. Welcome to the {Program.Name} World!");
+    }
+}
+```
+
+#### 2. Definimos nosso programa
+```csharp
+class CommandLineProgram : CommandLineWrapper
+{
+    override string[] Synopsis { get; set; } = {
+        "This is a my command line app to exemplify the use of this",
+        "exceptional library. In the next few lines you'll see how",
+        "easy it is to write a command line program."
+    };
+
+    CommandLineProgram() : base("cmd", "My Command Line App")
+    {
+        Version = "1.0.0-alpha-67890";
+        Copyright = "(c) 1991-2018 E5R Development Team. All rights reserved.";
+    }
+}
+```
+
+#### 3. E enfim, definimos nosso programa que executa comandos
+```csharp
+class Program
+    : CommandLineFullWrapper<CommandLineProgram, CommandLineCommands>
+{
+    static void Main(string[] args) => Launch(args);
 }
 ```
