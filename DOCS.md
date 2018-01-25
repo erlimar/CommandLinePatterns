@@ -1051,8 +1051,10 @@ Aqui nós mostramos tudo:
 `$ cmd [<options>|<flags>] <Command> [<CommandArgs>]`.
 
 Então no fim o que temos são duas formas de usar, ou seja, duas seções `USAGE:`, onde o usuário vai escolher
-como usar, ou chamando um comando específico, ou só chamando o programa (o que seria como chamar um comando padrão,
-algo como `RootCommand`).
+como usar:
+
+a) chamando um comando específico
+b) Ou só chamando o programa (o que seria como chamar um comando principal, algo como `RootCommand`).
 
 #### Na execução
 
