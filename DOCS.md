@@ -949,7 +949,7 @@ commands.Add("Hello", "Print hello world message")
             string name = @params.Get<string>("name");
             string secondName = @params.Get<string>("secondName");
             
-            if(!string.IsNullOrEmpry(secondName))
+            if(!string.IsNullOrEmpty(secondName))
             {
                 name = $"{secondName}, youName";
             }
@@ -972,7 +972,7 @@ class CommandLineCommands : CommandsWrapper
         [ParamWrapper("The second name to print", required: false)]
         string secondName)
     {
-        if(!string.IsNullOrEmpry(secondName))
+        if(!string.IsNullOrEmpty(secondName))
         {
             name = $"{secondName}, youName";
         }
