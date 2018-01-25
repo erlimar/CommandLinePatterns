@@ -918,3 +918,21 @@ class Program
     static void Main(string[] args) => Launch(args);
 }
 ```
+
+### Ao executar
+
+```powershell
+$ program hello Erlimar
+```
+_@output:_
+```
+Hello Erlimar. Welcome to the World!
+```
+
+```powershell
+$ program hello Erlimar "Silva Campos"
+```
+_@output:_
+```
+Hello Silva Campos, Erlimar. Welcome to the World!
+```
