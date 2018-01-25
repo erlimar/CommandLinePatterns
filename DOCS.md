@@ -939,3 +939,112 @@ _@output:_
 ```
 Hello Silva Campos, Erlimar. Welcome to the World!
 ```
+
+### Um problema
+
+Um problema é padronizar como isso irá coabitar com os parâmetros nomeados.
+Porque um comando é em tese, não uma __option__:
+```
+$ cmd --option="Value of option"
+```
+
+E também não uma __flag__:
+
+```
+$ cmd --the-flag|-f
+```
+
+seria um __command__:
+```
+$ cmd command
+```
+
+Mas isso é o mesmo que um __named param__:
+```
+$ cmd named-param
+```
+
+E precisamos lembrar que o impacto são em dois lugares: Na exibição da ajuda,
+e na execução do programa.
+
+Então como diferenciamos um comando de um parâmetro nomeado nesses dois momentos?
+
+#### Na ajuda
+
+Na exibição da ajuda o que fazemos é exibir tudo, o mais completo possível:
+
+```
+cmd - My Command Line App
+
+USAGE:
+    $ cmd [<options>|<flags>] <Source> [<Target>|<args>]
+    $ cmd [<options>|<flags>] <Command> [<CommandArgs>]
+
+ARGS:
+    <Source*>                   The source file path
+    <Target>                    The target file path
+
+COMMANDS:
+    Hello                       Print hello world message
+	    Args:
+	    - name                  The first name to print
+	    - secondName            The second name to print
+
+OPTIONS:
+    -a|--action <Action>        The app action
+    -k|--key <key>              Lorem ipsum lorem ipsum lorem ipsum
+    -v|--verbosity=<verbosity>  Inform a verbosity level.
+        Accepted values:
+        - DEBUG                 ...
+        - VERBOSE               ...
+        - INFORMATION           ...
+        - INFO                  ...
+        - WARNING               ...
+        - ERROR                 ...
+        - CRITICAL              ...
+
+FLAGS:
+    -v|--verbose                Print verbose messages
+
+(*) Argument is required
+```
+
+Aqui nós mostramos tudo:
+
+* Se existir __options__, nós mostramos todas na seção `OPTIONS:` e apresentamos `<options>` em `USAGE:`
+* Se existir __flags__, nós mostramos todas na seção `FLAGS:` e apresentamos `<flags>` em `USAGE:`
+* Se existir __named params__, nós mostramos todos na seção `ARGS:` e apresentamos `<NamedParam> [<args>]` em `USAGE:`
+* Se existir __commands__, nós mostramos todos na seção `COMMANDS:` e apresentamos uma nova linha de `USAGE:` contendo:
+`$ cmd [<options>|<flags>] <Command> [<CommandArgs>]`.
+
+Então no fim o que temos são duas formas de usar, ou seja, duas seções `USAGE:`, onde o usuário vai escolher
+como usar, ou chamando um comando específico, ou só chamando o programa (o que seria como chamar um comando padrão,
+algo como `RootCommand`).
+
+#### Na execução
+
+E para a execução, a proposta é simples:
+
+Processamos normalmente as __options__ e __flags__, mas ao encontrar um parâmetro que não seja option ou flag,
+e exista um comando registrado com esse nome, **Pronto!**. Executamos no modo comando.
+
+Como o primeiro argumento foi reconhecido como o __command__, tudo mais serão os argumentos do comando.
+
+Caso o primeiro argumento não seja reconhecido como um __command__, estamos no modo padrão, então reconhecemos
+os parâmetros nomeados se existirem, e executamos o __command__ __`<RootCommand>`__.
+
+O __`<RootCommand>`__ poderia ser um método na classe de programa:
+
+```csharp
+class Program : CommandLineWrapper
+{
+    Program(string[] args) : base("cmd", "My Command Line App") { }
+
+    override void RootCommand()
+    {
+        // TODO: Implements!
+    }
+
+    static void Main(string[] args) => Launch(args);
+}
+```
