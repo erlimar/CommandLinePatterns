@@ -1117,7 +1117,10 @@ O __`<RootCommand>`__ poderia ser um método na classe de programa:
 
 Na __API Fluente:__
 ```csharp
-// TODO: Implements!
+commands.RootCommand((CommandLineAppFull cmdAppFull) =>
+{
+    // TODO: Implements!
+});
 ```
 
 Na nossa classe __Program:__
