@@ -903,8 +903,14 @@ e auxílio a exibição de ajuda, ou unir isso a um fluxo padrão para execuçã
 
 Abaixo só alguns rascunhos:
 
-
 #### 1. Definimos nossos comandos
+
+Na __API Fluente:__
+```csharp
+// TODO: Implements!
+```
+
+Na nossa classe __Program:__
 ```csharp
 class CommandLineCommands : CommandsWrapper
 {
@@ -929,6 +935,13 @@ class CommandLineCommands : CommandsWrapper
 ```
 
 #### 2. Definimos nosso programa
+
+Na __API Fluente:__
+```csharp
+// TODO: Implements!
+```
+
+Na nossa classe __Program:__
 ```csharp
 class CommandLineProgram : CommandLineWrapper
 {
@@ -947,6 +960,13 @@ class CommandLineProgram : CommandLineWrapper
 ```
 
 #### 3. E enfim, definimos nosso programa que executa comandos
+
+Na __API Fluente:__
+```csharp
+// TODO: Implements!
+```
+
+Na nossa classe __Program:__
 ```csharp
 class Program
     : CommandLineFullWrapper<CommandLineProgram, CommandLineCommands>
@@ -1070,6 +1090,12 @@ os parâmetros nomeados se existirem, e executamos o __command__ __`<RootCommand
 
 O __`<RootCommand>`__ poderia ser um método na classe de programa:
 
+Na __API Fluente:__
+```csharp
+// TODO: Implements!
+```
+
+Na nossa classe __Program:__
 ```csharp
 class CommandLineProgram : CommandLineWrapper
 {
