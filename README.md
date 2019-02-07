@@ -62,36 +62,36 @@ exemplo, uma flag que habilita o modo de depuração, `--debug` ou sua forma cur
 --debug | -d
 ```
     
-Nesse caso o modo de depuração **"por padrão está desligado"**, mas como o informamos passa a
+Nesse caso o modo de depuração **"por padrão está desligado"**, mas como o informamos, passa a
 estar ligado.
     
-E se quiséssemos ao contrário? Por padrão ligado e o usuário pudesse desligá-lo.
+E se quiséssemos o contrário? Por padrão ligado e o usuário pudesse desligá-lo.
     
 ```
 --no-debug | -n
 ```
     
-Não precisamos de um mecanismo que habilite FLAG's, tipo `-/d-` ou `-/d+` ou `--debug=+` `-d=-`.
+Não precisamos de um mecanismo que habilite **flag's**, tipo `-/d-` ou `-/d+` ou `--debug=+` `-d=-`.
 Isso parece bem interessante a princípio, e uma implementação desse padrão não seria algo tão
-difícil. Mas pra quê complicar?
+difícil. Mas pra quê?
     
-O objetivo de FLAG's, são simplesmente chaves que receberão valores **"TRUE"** ou **"FALSE"**,
-ligado ou desligado, não existe outra opção além disso. Então no caso de você deixar o usuário
-escolher sua forma, então basta informar qual o seu estado inicial, e possibilitá-lo mudar se
-for sua preferência.
+O objetivo de uma **flag**, é simplesmente informar se está (**"TRUE"**) ou não (**"FALSE"**) 
+habilitada, ligado ou desligado, não existe outra opção além disso.
+
+Então no caso de você deixar o usuário escolher sua forma, basta informar qual o seu estado inicial,
+e possibilitá-lo mudar se for de sua preferência.
     
 Então voltando ao caso `--debug`.
     
-Se o modo está **"abilitado"** por padrão, então a única coisa que o usuário pode faser é **"desabilitar"**.
+Se o modo está **"habilitado"** por padrão, a única coisa que o usuário pode faser é **"desabilitar"**.
 Então um `--no-debug` é o suficiente.
     
 Se o modo está **"desabilitado"** por padrão, logo a única coisa que o usuário pode fazer é **"habilitar"**.
 Então um `--debug` é o suficiente.
     
 Veja que não há a necessidade de permitir ao usuário informar seu valor **"BOOLEANO"** com `+/-`, `0/1`,
-`S/N`, `Y/N` e etc.
-    
-Usamos o próprio sentido da palavra pra dizer isso. **"Não-Depurar"** ou **"Depurar"** é o que importa.
+`S/N`, `Y/N` e etc. Usamos o próprio sentido da palavra (nome da flag) pra dizer isso.
+**"Não-Depurar"** ou **"Depurar"** já diz tudo.
     
 No máximo podemos assumir um padrão de prefixação. Se a flag é **"DEBUG"** então as opções ao usuário
 seriam:
@@ -100,8 +100,10 @@ seriam:
 --DEBUG e --NO-DEBUG, um prefixo "NO" é a negação.
 ```
     
-Mas isso fica a seu critério.
-    
+Mas isso fica a seu critério, e vamos combinar, não é muito útil. Um **BOOLEAN** é muito claro para ter
+uma configuração implícita com prefixos. Deixar você ser explícito definindo todas suas flags é muito
+mais prático.
+
 * Quando usamos a forma curta dos parâmetros (ex: `-d` é a forma curta de `--debug`) só teremos um
 caractere pra designar cada parâmetro, assim, podemos acumular vários parâmetros em uma única palavra.
 	
@@ -117,11 +119,11 @@ No exemplo acima, se informarmos `-dhv` estamos informando `--debug`, `--help` e
 mesmo tempo.
 	
 Até aí tudo bem, mas se considerarmos que um parâmetro pode ser uma **"flag"** ou uma **"option"**,
-e que **flags** não tem valores, mas **options** tem valores; e que os valores podem ser informados
+e que **flag's** não tem valores, mas **option's** tem valores; e que os valores podem ser informados
 tanto assim (`--verbosity NORMAL`, `-v NORMAL`), quanto assim (`--verbosity=NORMAL`, `-v=NORMAL`).
 Aí adicionamos uma pequena complexidade ao assumto.
 	
-Como poderíamos informar flags e options com essa notação curta acumulada?
+Como poderíamos informar **flag's** e **option's** com essa notação curta acumulada?
 Talvez não fique tão óbvio, mas seguindo o exemplo acima, poderia ser assim:
 	
 ```
@@ -140,9 +142,9 @@ será ligado, o que for **option** buscará o próximo item na fila como valor d
 Quando disse que **"talvez não fique tão óbvio"**, e vendo esse exemplo você me diga:
 _"Até que é meio óbvio"_.
  
-Mas e se eu te der esse exemplo?
+Mas e se eu te der este outro exemplo?
 
-Ex: Suponha a seguinte configuração de parâmetros
+Ex: Suponha a seguinte configuração de parâmetros:
    
 ```
 -d|--debug-host
@@ -150,7 +152,7 @@ Ex: Suponha a seguinte configuração de parâmetros
 -v|--verbosity
 ```
 Nesse exemplo agora temos `--debug-host` como uma **option** que espera um endereço host de um
-servidor de depuração, uma flag `--help` e `--verbosity` como uma outra **option**.
+servidor de depuração, uma flag `--help`, e `--verbosity` como uma outra **option**.
 
 Então podemos informar assim:
 
@@ -175,15 +177,78 @@ Que por sua vez também poderia ser informado de várias outras formas:
 Veja que basicamente o que muda é a ordem dos próximos parâmetros. E isso sim é o que pode
 causar certa confusão, não ficando tão óbvia sua leitura.
 
-Mas enfim, não se pode ter tudo.
+**Temos um outro pequeno ponto que talvez cause confusão.**
 
-Mas o bom é que: Nós podemos estabelecer as seguintes regras:
+Ex: Suponha a seguinte configuração de parâmetros:
 
-1. Sempre que uma **flag** for encontrada nos parâmetros, ela será ligada;
-2. Sempre que uma **option** for encontrada nos parâmetros, o próximo parâmetro será capturado
-como valor dessa opção;
-3. Sempre que uma **option** for informada, e não temos um próximo parâmetro para estabelecer
-seu valor, aí temos um ERRO;
+```
+-d|--debug
+-e|--environment
+-b|--build
+-u|--unknow
+-g|--global
+```
+
+No exemplo acima, podemos supor que todos são _flag's_, mas também poderiam ser _option's_ sem
+problemas. Então se informarmos isso aqui na linha de comando:
+
+```
+-debug
+```
+
+O que queremos dizer é que todas as _flags_ foram atribuídas, ou seja, `--debug`, `--environment`,
+`--build`, `--unknow`, e `--global`.
+
+Mas se ao invés disso tivéssemos informado isso:
+
+```
+--debug
+```
+
+O que queremos dizer é que somente a flag `--debug` foi atribuída.
+
+Como regra é simples dizer que se o parâmetro iniciar com `-` trata-se de um ou mais nomes curtos
+de _flag's_ ou _option's_, e se o parâmetro iniciar com `--` trata-se de um nome completo, de _flag_ 
+ou _option_.
+
+Mas visualmente, `-debug` é só um pouco diferente de `--debug`, e por se tratar de um assunto relacionado
+a UI (User Interface), o foco é o usuário. Como ele (usuário) é que interage com nosso programa, isso pode
+deixá-lo um tanto quanto confuso, pois um simples esquecimento ou erro de digitação pode fazer o programa
+se comportar de forma totalmente diferente, e isso não é bom para o usuário.
+
+Mas enfim, não se pode ter tudo. O bom é que nós podemos estabelecer algumas regras pra deixar tudo menos
+difícil:
+
+1. Quando iniciar com `-` (único traço), cada caractere é um nome curto, e para cada um:
+   - Sempre que uma **flag** for encontrada nos parâmetros, ela será ligada;
+   - Sempre que uma **option** for encontrada nos parâmetros, o próximo parâmetro será capturado
+     como valor dessa opção;
+   - Sempre que uma **option** for encontrada nos parâmetros, e não temos um próximo parâmetro
+     para estabelecer seu valor, aí temos um ERRO;
+2. Quando iniciar com `--` (dois traços), o termo inteiro é o nome do item:
+   - Se for uma **flag**, ela será ligada;
+   - Se for uma **option**, e tem um `=` no meio, quer dizer que o que está após o `=` é o
+     valor da opção;
+   - Se for uma **option**, e não tem um `=`, o próximo parâmetro será capturado como valor dessa opção;
+   - Se for uma **option**, e não tem um `=`, e não temos um próximo parâmetro para estabelecer seu valor,
+     aí temos um ERRO;
+   - Se for uma **option**, e tem um `=`, mas não tem nada após o `=`, aí temos um ERRO.
+	 
+Podemos seguir essas regras e considerar que nosso programa está pronto para lidar com essas situações,
+mas também podemos abrir mão de algumas coisas para não gerar essas confusões ao usuário, e deixar só umas
+regras mais simples:
+
+1. Começou com `-` (único traço), sempre serão **flag's**, nunca **option's**;
+2. Começou com `--` (dois traços), pode ser **flag** ou **option**;
+3. Sempre que um parâmetro de **flag** (iniciando com `-`) tiver mais de um caractere, e esses caracteres
+   formam o nome longo de uma **flag** ou **option**. Aí temos um ERRO.
+   
+Com a regra **1**, e **2**, eliminamos a primeira confusão do próximo parâmetro ser o valor de uma das
+options e a ordem causar confusão, visto que não haverão options quando iniciado com `-`, portanto um
+valor nunca é esperado.
+
+Com a regra **3**, eliminamos a segunda confusão do conflito de nomes e evitar a confusão do usuário
+com `-debug` e `--debug`.
 
 Ainda temos muito a dizer sobre esse simples assunto chamado **parâmetros de linha de comando**,
-mas vamos falando por aí.
+mas vamos falando por aí em outros textos.
