@@ -43,11 +43,18 @@ opção:
     
 Se precisar usar espaços:
 
+* **Windows**
 ```
 --key="Outro valor" | -k="Outro valor"
 --key "Outro valor" | -k "Outro valor"
 ```
-    
+
+* **Unix**
+```
+--key='Outro valor' | -k='Outro valor'
+--key 'Outro valor' | -k 'Outro valor'
+```
+
 * As opções podem ter seus valores informados de forma livre, ou ter opções pré-definidas, como
 no caso da opção `--verbosity`. Nesse caso temos duas coisas a dizer:
 
